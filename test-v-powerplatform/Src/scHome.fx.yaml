@@ -119,3 +119,12 @@ scHome As screen:
         Y: =933
         ZIndex: =18
 
+    Label3_1 As label:
+        Height: =70
+        Size: =21
+        Text: ="Test commit 2"
+        Width: =560
+        X: =63
+        Y: =996
+        ZIndex: =19
+
