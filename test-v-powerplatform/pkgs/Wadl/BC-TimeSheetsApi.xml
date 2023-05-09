@@ -1,0 +1,226 @@
+<application xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:service="https://europe-002.azure-apim.net/apim/bc-2dtimesheetsapi-5f53a2ceb06f5245c6-5f161ba5d564a9dc0a" xmlns:siena="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11" siena:serviceId="BC-TimeSheetsApi" xmlns="http://wadl.dev.java.net/2009/02">
+  <doc title="BC-TimeSheetsApi"></doc>
+  <grammars>
+    <jsonTypes targetNamespace="https://europe-002.azure-apim.net/apim/bc-2dtimesheetsapi-5f53a2ceb06f5245c6-5f161ba5d564a9dc0a" xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+      <string name="TSLDetails_responses_default_def__ux40_odata_context_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def__ux40_odata_etag_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_systemId_def" />
+      <boolean name="TSLDetails_responses_default_def_value_def_items_def_approvedExists_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_approverUserID_def" />
+      <boolean name="TSLDetails_responses_default_def_value_def_items_def_comment_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_description_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_endingDate_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_no_def" />
+      <boolean name="TSLDetails_responses_default_def_value_def_items_def_openExists_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_ownerUserID_def" />
+      <boolean name="TSLDetails_responses_default_def_value_def_items_def_postedExists_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_postedQuantity_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_quantity_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_quantityApproved_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_quantityOpen_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_quantityRejected_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_quantitySubmitted_def" />
+      <boolean name="TSLDetails_responses_default_def_value_def_items_def_rejectedExists_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_resourceName_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_resourceNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_startingDate_def" />
+      <boolean name="TSLDetails_responses_default_def_value_def_items_def_submittedExists_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_systemCreatedAt_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_systemCreatedBy_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_systemModifiedAt_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_systemModifiedBy_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_unitOfMeasure_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_dateFilter_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_jobNoFilter_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_jobTaskNoFilter_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_postedFilter_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_statusFilter_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_typeFilter_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_email_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def__ux40_odata_etag_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_systemId_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_type_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_approvalDate_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_approvedBy_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_approverID_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_assemblyOrderLineNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_assemblyOrderNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_causeOfAbsenceCode_def" />
+      <boolean name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_chargeable_def" />
+      <boolean name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_comment_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_description_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_dimensionSetID_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_jobId_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_jobNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_jobTaskNo_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_lineNo_def" />
+      <boolean name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_posted_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_serviceOrderLineNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_serviceOrderNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_status_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_systemCreatedAt_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_systemCreatedBy_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_systemModifiedAt_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_systemModifiedBy_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_timeSheetNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_timeSheetStartingDate_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_totalQuantity_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_workTypeCode_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def__ux40_odata_etag_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_timeSheetNo_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_timeSheetLineNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_date_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_assemblyOrderLineNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_assemblyOrderNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_causeOfAbsenceCode_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_dimensionSetID_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_jobId_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_jobNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_jobTaskNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_lastModifiedDateTime_def" />
+      <boolean name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_posted_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_postedQuantity_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_quantity_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_resourceNo_def" />
+      <integer name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_serviceOrderLineNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_serviceOrderNo_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_status_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_systemCreatedAt_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_systemCreatedBy_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_systemId_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_systemModifiedAt_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_systemModifiedBy_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_type_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_jobDescription_def" />
+      <string name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def_jobTaskDescription_def" />
+      <object name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def">
+        <property name="@odata.etag" type="string" />
+        <property name="timeSheetNo" type="string" />
+        <property name="timeSheetLineNo" type="integer" />
+        <property name="date" type="string" />
+        <property name="assemblyOrderLineNo" type="integer" />
+        <property name="assemblyOrderNo" type="string" />
+        <property name="causeOfAbsenceCode" type="string" />
+        <property name="dimensionSetID" type="integer" />
+        <property name="jobId" type="string" />
+        <property name="jobNo" type="string" />
+        <property name="jobTaskNo" type="string" />
+        <property name="lastModifiedDateTime" type="string" />
+        <property name="posted" type="boolean" />
+        <property name="postedQuantity" type="integer" />
+        <property name="quantity" type="integer" />
+        <property name="resourceNo" type="string" />
+        <property name="serviceOrderLineNo" type="integer" />
+        <property name="serviceOrderNo" type="string" />
+        <property name="status" type="string" />
+        <property name="systemCreatedAt" type="string" />
+        <property name="systemCreatedBy" type="string" />
+        <property name="systemId" type="string" />
+        <property name="systemModifiedAt" type="string" />
+        <property name="systemModifiedBy" type="string" />
+        <property name="type" type="string" />
+        <property name="jobDescription" type="string" />
+        <property name="jobTaskDescription" type="string" />
+      </object>
+      <array typeRef="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def_items_def" name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def" />
+      <object name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def">
+        <property name="@odata.etag" type="string" />
+        <property name="systemId" type="string" />
+        <property name="type" type="string" />
+        <property name="approvalDate" type="string" />
+        <property name="approvedBy" type="string" />
+        <property name="approverID" type="string" />
+        <property name="assemblyOrderLineNo" type="integer" />
+        <property name="assemblyOrderNo" type="string" />
+        <property name="causeOfAbsenceCode" type="string" />
+        <property name="chargeable" type="boolean" />
+        <property name="comment" type="boolean" />
+        <property name="description" type="string" />
+        <property name="dimensionSetID" type="integer" />
+        <property name="jobId" type="string" />
+        <property name="jobNo" type="string" />
+        <property name="jobTaskNo" type="string" />
+        <property name="lineNo" type="integer" />
+        <property name="posted" type="boolean" />
+        <property name="serviceOrderLineNo" type="integer" />
+        <property name="serviceOrderNo" type="string" />
+        <property name="status" type="string" />
+        <property name="systemCreatedAt" type="string" />
+        <property name="systemCreatedBy" type="string" />
+        <property name="systemModifiedAt" type="string" />
+        <property name="systemModifiedBy" type="string" />
+        <property name="timeSheetNo" type="string" />
+        <property name="timeSheetStartingDate" type="string" />
+        <property name="totalQuantity" type="integer" />
+        <property name="workTypeCode" type="string" />
+        <property name="TimeSheetComplatetimeSheetLineCompletestimeSheetDtls" typeRef="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def_TimeSheetComplatetimeSheetLineCompletestimeSheetDtls_def" />
+      </object>
+      <array typeRef="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def_items_def" name="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def" />
+      <object name="TSLDetails_responses_default_def_value_def_items_def">
+        <property name="@odata.etag" type="string" />
+        <property name="systemId" type="string" />
+        <property name="approvedExists" type="boolean" />
+        <property name="approverUserID" type="string" />
+        <property name="comment" type="boolean" />
+        <property name="description" type="string" />
+        <property name="endingDate" type="string" />
+        <property name="no" type="string" />
+        <property name="openExists" type="boolean" />
+        <property name="ownerUserID" type="string" />
+        <property name="postedExists" type="boolean" />
+        <property name="postedQuantity" type="integer" />
+        <property name="quantity" type="integer" />
+        <property name="quantityApproved" type="integer" />
+        <property name="quantityOpen" type="integer" />
+        <property name="quantityRejected" type="integer" />
+        <property name="quantitySubmitted" type="integer" />
+        <property name="rejectedExists" type="boolean" />
+        <property name="resourceName" type="string" />
+        <property name="resourceNo" type="string" />
+        <property name="startingDate" type="string" />
+        <property name="submittedExists" type="boolean" />
+        <property name="systemCreatedAt" type="string" />
+        <property name="systemCreatedBy" type="string" />
+        <property name="systemModifiedAt" type="string" />
+        <property name="systemModifiedBy" type="string" />
+        <property name="unitOfMeasure" type="string" />
+        <property name="dateFilter" type="string" />
+        <property name="jobNoFilter" type="string" />
+        <property name="jobTaskNoFilter" type="string" />
+        <property name="postedFilter" type="string" />
+        <property name="statusFilter" type="string" />
+        <property name="typeFilter" type="string" />
+        <property name="email" type="string" />
+        <property name="TimeSheetComplatetimeSheetLineCompletes" typeRef="TSLDetails_responses_default_def_value_def_items_def_TimeSheetComplatetimeSheetLineCompletes_def" />
+      </object>
+      <array typeRef="TSLDetails_responses_default_def_value_def_items_def" name="TSLDetails_responses_default_def_value_def" />
+      <object name="TSLDetails_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="value" typeRef="TSLDetails_responses_default_def_value_def" />
+      </object>
+    </jsonTypes>
+  </grammars>
+  <resources siena:authenticationProviderHref="#PowerAppAuth" base="https://europe-002.azure-apim.net/apim/bc-2dtimesheetsapi-5f53a2ceb06f5245c6-5f161ba5d564a9dc0a">
+    <resource path="/{connectionId}/v2.0/26d7a21f-35cc-4707-9ef7-968f9ffd8f8b/FR_SB/ODataV4/Company('{cieName}')/TimeSheetComplate">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="cieName" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="TSLDetails" actionName="TSLDetails" siena:isDeprecated="false">
+        <doc title="Get TSLDetails&#xA;Get Time Sheet Lines Details" />
+        <request>
+          <param style="query" name="$expand" type="xs:string" />
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:TSLDetails_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+  </resources>
+  <authenticationProviders xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <connectionProvider id="PowerAppAuth" siena:connectionProviderId="shared_bc-2dtimesheetsapi-5f53a2ceb06f5245c6-5f161ba5d564a9dc0a" />
+  </authenticationProviders>
+  <template xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <variable name="connectionId">
+      <modifyParams style="template" name="connectionId" attribute="fixed" />
+    </variable>
+  </template>
+</application>

@@ -1,0 +1,26 @@
+ComponentFooter As CanvasComponent:
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =70
+    screen_nav: =App.ActiveScreen
+    Title_page: ="Texte"
+    Width: =640
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    Rec_NavBar_1 As rectangle:
+        Fill: =RGBA(49, 173, 161, 1)
+        Height: =70
+        Width: =640
+        ZIndex: =1
+
+    title_Footer As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =70
+        Size: =21
+        Text: =ComponentFooter.Title_page
+        Width: =640
+        ZIndex: =5
+

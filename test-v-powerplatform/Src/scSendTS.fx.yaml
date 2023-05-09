@@ -1,0 +1,948 @@
+scSendTS As screen:
+    Fill: =
+    OnHidden: |-
+        =UpdateContext({OneClicked:false, ctxDaySelected:""});
+        UpdateContext({ResetCheckbox:true});
+    OnVisible: |-
+        =//UpdateContext({OneClicked:false, ctxDaySelected:""});
+        UpdateContext({OneClicked:false});
+        UpdateContext({Day:""});
+        UpdateContext({ctxShowInput:false});
+        Set(varShowpopup, false);
+        UpdateContext({varStatus1: "Open", varStatus2: "Ouvert"});
+        UpdateContext({statusSelected:true});
+        UpdateContext({_lineSelected:0});
+        UpdateContext({ResetCheckbox:false});
+
+    lblNoTaskDay_2 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Semibold
+        Height: =166
+        Italic: =true
+        LineHeight: =1.5
+        OnSelect: =//Select(Parent)
+        Size: =30
+        Text: ="Il n'y a pas de job task pour cette date"
+        Visible: =CountRows(Filter(colThisDayTasks,timeSheetNo=varTimeSheetName,date=ctxDaySelected))=0 && !IsBlank(ctxDaySelected)
+        Width: =570
+        X: =30
+        Y: =483
+        ZIndex: =16
+
+    "galTSDayDetail_2 As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+        Height: =390
+        Items: |-
+            =Filter(
+                colThisDayTasks,
+                timeSheetNo=varTimeSheetName,
+                date=ctxDaySelected
+            )
+        Layout: =Layout.Vertical
+        TemplatePadding: =0
+        TemplateSize: =72
+        Visible: |
+            =CountRows(Filter(colThisDayTasks,timeSheetNo=varTimeSheetName,date=ctxDaySelected))>0
+        Width: =582
+        X: =29
+        Y: =394
+        ZIndex: =17
+
+        Title3_8 As label:
+            FontWeight: =FontWeight.Bold
+            Height: =36
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.jobNo
+            VerticalAlign: =VerticalAlign.Top
+            Width: =161
+            X: =13
+            Y: =19
+            ZIndex: =1
+
+        Label22_8 As label:
+            Align: =Align.Center
+            Height: =61
+            OnSelect: =Select(Parent)
+            Size: =21
+            Text: =ThisItem.quantity
+            Width: =53
+            X: =174
+            Y: =4
+            ZIndex: =4
+
+        InputUpdateQty_7 As text:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderThickness: =1
+            Default: =
+            DisabledBorderColor: =RGBA(0, 0, 0, 1)
+            DisabledFill: =RGBA(253, 222, 207, 1)
+            Height: =49
+            HoverBorderColor: =RGBA(0, 0, 0, 1)
+            HoverFill: =RGBA(253, 222, 207, 1)
+            OnSelect: =Select(Parent)
+            PaddingLeft: =5
+            PressedBorderColor: =RGBA(0, 0, 0, 1)
+            PressedFill: =RGBA(253, 222, 207, 1)
+            Size: =21
+            Visible: |-
+                =//ctxShowInput
+                true
+            Width: =89
+            X: =310
+            Y: =11
+            ZIndex: =6
+
+        Icon12_16 As icon.Edit:
+            Color: =RGBA(54, 176, 75, 1)
+            Height: =38
+            Icon: =Icon.Check
+            OnSelect: |-
+                =//Select(Parent);
+                Set(varSelected,Value(InputUpdateQty_7.Text));
+                //'BC-TSLDetailsDate'.UpdateTSL("CRONUS FR",varTimeSheetName,varTSL,varTSLDate,{'If-Match':varTSLToken, quantity:InputUpdateQty.Text});
+                'BC-TSLDetailsDate'.UpdateTSL("CRONUS FR",ThisItem.timeSheetNo,ThisItem.timeSheetLineNo,ThisItem.date,{'If-Match':ThisItem.'@odata.etag', quantity:Value(varSelected)});
+                
+                //2 Refresh pour MAJ les DATA du DASHBOARD
+                ClearCollect(colTSLdetails,'BC-TimeSheetsApi'.TSLDetails("CRONUS%20FR",{'$expand':"TimeSheetComplatetimeSheetLineCompletes($expand=TimeSheetComplatetimeSheetLineCompletestimeSheetDtls)"}).value);
+                
+                // Refresh de la Gallery colThiDayTasks
+                //Patch(colThisDayTasks,LookUp(colThisDayTasks,'@odata.etag'=ThisItem.'@odata.etag'),{quantity:Value(varSelected)});
+                Clear(colThisDayTasks);
+                ForAll(
+                    LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,
+                    ForAll(ThisRecord.TimeSheetComplatetimeSheetLineCompletestimeSheetDtls,
+                        Collect(colThisDayTasks,ThisRecord)
+                    )
+                );
+            Visible: |-
+                =//ctxShowInput
+                true
+            Width: =50
+            X: =427
+            Y: =14
+            ZIndex: =7
+
+        Icon12_17 As icon.Edit:
+            Color: =RGBA(255, 0, 0, 1)
+            Height: =38
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =Select(Parent);
+                //'BC-TSLDetailsDate'.DeleteTSL("CRONUS FR",varTimeSheetName,varTSL,varTSLDate);
+                
+                //2 Refresh pour MAJ les DATA du DASHBOARD
+                ClearCollect(colTSLdetails,'BC-TimeSheetsApi'.TSLDetails("CRONUS%20FR",{'$expand':"TimeSheetComplatetimeSheetLineCompletes($expand=TimeSheetComplatetimeSheetLineCompletestimeSheetDtls)"}).value);
+            Visible: |-
+                =//ctxShowInput
+                true
+            Width: =50
+            X: =516
+            Y: =16
+            ZIndex: =8
+
+        Icon3_7 As icon.Add:
+            Height: =46
+            Icon: =Icon.Edit
+            OnSelect: =Select(Parent)
+            Width: =38
+            X: =244
+            Y: =14
+            ZIndex: =9
+
+    ComponentHeader_4 As ComponentHeader:
+        home_nav: =scHome
+        screen_nav: =scTSList_envoyer
+        Title_page: ="SOUMETTRE UNE TIMESHEET"
+        ZIndex: =24
+
+    ComponentFooter_5 As ComponentFooter:
+        Title_page: ="Nom de l'entreprise"
+        Y: =1066
+        ZIndex: =25
+
+    "Gallery3 As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+        Height: =578
+        Items: =Sort(GroupBy(Filter(colThisDayTasks,timeSheetNo=varTimeSheetName,status=varStatus1),"timeSheetLineNo","LineTSGroup"),timeSheetLineNo,SortOrder.Ascending)
+        Layout: =Layout.Vertical
+        TemplatePadding: =0
+        TemplateSize: =85
+        Y: =375
+        ZIndex: =26
+
+        odata As label:
+            Height: =38
+            OnSelect: =Select(Parent)
+            Size: =14
+            Text: =LookUp(LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,jobNo=First(ThisItem.LineTSGroup).jobNo && jobTaskNo=First(ThisItem.LineTSGroup).jobTaskNo,'@odata.etag')
+            Visible: =false
+            Width: =388
+            X: =40
+            Y: =40
+            ZIndex: =1
+
+        odata_1 As label:
+            Height: =38
+            OnSelect: =Select(Parent)
+            Size: =14
+            Text: =LookUp(LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,jobNo=First(ThisItem.LineTSGroup).jobNo && jobTaskNo=First(ThisItem.LineTSGroup).jobTaskNo,'@odata.etag')
+            Visible: =false
+            Width: =388
+            X: =60
+            Y: =60
+            ZIndex: =2
+
+        systemID As label:
+            Height: =38
+            OnSelect: =Select(Parent)
+            Size: =14
+            Text: =LookUp(LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,jobNo=First(ThisItem.LineTSGroup).jobNo && jobTaskNo=First(ThisItem.LineTSGroup).jobTaskNo,systemId)
+            Visible: =false
+            Width: =388
+            X: =80
+            Y: =69
+            ZIndex: =3
+
+        Separator4 As rectangle:
+            Fill: =RGBA(202, 202, 202, 1)
+            Height: =1
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =4
+
+        Checkbox1 As checkbox:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            CheckboxBorderColor: =RGBA(49, 173, 161, 1)
+            CheckboxSize: =50
+            Color: =RGBA(49, 173, 161, 1)
+            OnCheck: |-
+                =UpdateContext({_lineSelected:_lineSelected+1})
+            OnSelect: =Select(Parent)
+            OnUncheck: |-
+                =UpdateContext({_lineSelected:_lineSelected-1})
+            Reset: =ResetCheckbox
+            Size: =15
+            Text: =
+            VerticalAlign: =VerticalAlign.Top
+            Width: =50
+            X: =562
+            Y: =16
+            ZIndex: =5
+
+        Label5_8 As label:
+            LineHeight: =1
+            OnSelect: =Select(Parent)
+            Size: =17
+            Text: =First(ThisItem.LineTSGroup).jobTaskNo & " - " & First(ThisItem.LineTSGroup).jobTaskDescription
+            Width: =490
+            X: =78
+            Y: =41
+            ZIndex: =6
+
+        Label5_9 As label:
+            FontWeight: =FontWeight.Semibold
+            LineHeight: =1
+            OnSelect: =Select(Parent)
+            PaddingLeft: =10
+            Size: =18
+            Text: =First(ThisItem.LineTSGroup).jobNo & " - " & First(ThisItem.LineTSGroup).jobDescription
+            Width: =562
+            Y: =3
+            ZIndex: =7
+
+        Label5_10 As label:
+            LineHeight: =1
+            OnSelect: =Select(Parent)
+            PaddingLeft: =10
+            Size: =17
+            Text: |-
+                ="Task : "
+            Width: =80
+            Y: =41
+            ZIndex: =8
+
+    lblNoTaskDay_4 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Semibold
+        Height: =166
+        Italic: =true
+        LineHeight: =1.5
+        OnSelect: =//Select(Parent)
+        Size: =30
+        Text: ="Il n'y a pas de job task pour cette date"
+        Visible: =CountRows(Filter(colThisDayTasks,timeSheetNo=varTimeSheetName,date=ctxDaySelected))=0 && !IsBlank(ctxDaySelected)
+        Width: =570
+        X: =70
+        Y: =465
+        ZIndex: =41
+
+    Button1_3 As button:
+        BorderColor: =
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(255, 255, 255, 1)
+        DisabledFill: =RGBA(49, 173, 161, 0.4)
+        DisplayMode: =If(_lineSelected>=1,DisplayMode.Edit,DisplayMode.Disabled)
+        Fill: =RGBA(49, 173, 161, 1)
+        Font: =Font.'Segoe UI'
+        Height: =70
+        HoverBorderColor: =
+        HoverFill: =RGBA(49, 173, 161, 0.4)
+        OnSelect: |-
+            =// Recup dans une collection de TSLNo et de l'information de check/uncheked
+            Clear(ColCheck);
+            ForAll(Gallery3.AllItems,Collect(ColCheck, {timeSheetLineNo:timeSheetLineNo, check:Checkbox1.Value, id: systemID.Text, etag:odata.Text}));
+            
+            //Realisation du patch
+            ForAll(
+                Filter(
+                    ColCheck,
+                    check = true
+                ),
+                'BC-TSLDetailsDate'.UpdateTSLineStatus("CRONUS FR", ThisRecord.id, {'If-Match':ThisRecord.etag,status:"Submitted"}));
+            
+            ClearCollect(colTSLdetails,'BC-TimeSheetsApi'.TSLDetails("CRONUS%20FR",{'$expand':"TimeSheetComplatetimeSheetLineCompletes($expand=TimeSheetComplatetimeSheetLineCompletestimeSheetDtls)"}).value);
+            
+            // Mise à jour de la collection
+            Clear(colThisDayTasks);
+            ForAll(
+                LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,
+                ForAll(ThisRecord.TimeSheetComplatetimeSheetLineCompletestimeSheetDtls,
+                    Collect(colThisDayTasks,ThisRecord)
+                )
+            ); 
+        PressedBorderColor: =
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =RGBA(49, 173, 161, 0.4)
+        Size: =20
+        Text: ="SOUMETTRE"
+        Tooltip: =If(_lineSelected<1,"Veillez sélectionner au moins un job","Valider la sélection")
+        Visible: |-
+            =//If(varStatus="Ouvert",true,false)
+            (varStatus1="Open" || varStatus2="Ouvert") && CountRows(Gallery3.AllItems)>0
+        Width: =204
+        X: =218
+        Y: =977
+        ZIndex: =44
+
+    Button1_5 As button:
+        BorderColor: =
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(255, 255, 255, 1)
+        DisabledFill: =RGBA(49, 173, 161, 0.4)
+        DisplayMode: =If(_lineSelected>=1,DisplayMode.Edit,DisplayMode.Disabled)
+        Fill: =RGBA(49, 173, 161, 1)
+        Font: =Font.'Segoe UI'
+        Height: =70
+        HoverBorderColor: =
+        HoverFill: =RGBA(49, 173, 161, 0.4)
+        OnSelect: |-
+            =// Recup dans une collection de TSLNo et de l'information de check/uncheked
+            Clear(ColCheck);
+            ForAll(Gallery3.AllItems,Collect(ColCheck, {timeSheetLineNo:timeSheetLineNo, check:Checkbox1.Value, id: systemID.Text, etag:odata.Text}));
+            
+            //Realisation du patch
+            ForAll(
+                Filter(
+                    ColCheck,
+                    check = true
+                ),
+                'BC-TSLDetailsDate'.UpdateTSLineStatus("CRONUS FR", ThisRecord.id, {'If-Match':ThisRecord.etag,status:"Open"}));
+            
+            ClearCollect(colTSLdetails,'BC-TimeSheetsApi'.TSLDetails("CRONUS%20FR",{'$expand':"TimeSheetComplatetimeSheetLineCompletes($expand=TimeSheetComplatetimeSheetLineCompletestimeSheetDtls)"}).value);
+            
+            // Mise à jour de la collection
+            Clear(colThisDayTasks);
+            ForAll(
+                LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,
+                ForAll(ThisRecord.TimeSheetComplatetimeSheetLineCompletestimeSheetDtls,
+                    Collect(colThisDayTasks,ThisRecord)
+                )
+            ); 
+        PressedBorderColor: =
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =RGBA(49, 173, 161, 0.4)
+        Size: =20
+        Text: ="REOUVRIR"
+        Tooltip: =If(_lineSelected<1,"Veillez sélectionner au moins un job","Valider la sélection")
+        Visible: |-
+            =//If(varStatus="Soumis",true,false)
+            (varStatus1="Submitted" || varStatus2="Soumis") && CountRows(Gallery3.AllItems)>0
+        Width: =204
+        X: =218
+        Y: =977
+        ZIndex: =45
+
+    Label5 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Semibold
+        Height: =70
+        Italic: =true
+        Size: =24
+        Text: ="Pas de job avec ce status"
+        Visible: =CountRows(Gallery3.AllItems)=0
+        Width: =560
+        X: =40
+        Y: =452
+        ZIndex: =46
+
+    Image4 As image:
+        Height: =293
+        Image: =folder
+        Visible: =CountRows(Gallery3.AllItems)=0
+        Width: =295
+        X: =177
+        Y: =557
+        ZIndex: =47
+
+    Group3 As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =49
+
+        HtmlText1_3 As htmlViewer:
+            Height: =102
+            HtmlText: |-
+                ="<div style='width:800px;height:70px;background-color:#;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  #ccc; '></div>"
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Width: =640
+            Y: =263
+            ZIndex: =1
+
+        BtnOpen As button:
+            BorderColor: =
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(49, 173, 161, 0.4)
+            Fill: |
+                =If(
+                    varStatus1="Open" && statusSelected,
+                    RGBA(49, 173, 161, 1),
+                    RGBA(56, 96, 178, 1)
+                )
+            Font: =Font.'Segoe UI'
+            Height: =48
+            HoverBorderColor: =
+            HoverFill: =RGBA(49, 173, 161, 0.4)
+            OnSelect: |-
+                =//Set(varStatus,"Ouvert")
+                UpdateContext({varStatus1: "Ouvert"});
+                UpdateContext({statusSelected:true})
+            PressedBorderColor: =
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(49, 173, 161, 0.4)
+            Size: =16
+            Text: ="OPEN"
+            Width: =172
+            X: =32
+            Y: =268
+            ZIndex: =42
+
+        BtnSubmit As button:
+            BorderColor: =
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(49, 173, 161, 0.4)
+            Fill: |
+                =If(
+                    varStatus1="Submitted" && statusSelected,
+                    RGBA(49, 173, 161, 1),
+                    RGBA(56, 96, 178, 1)
+                )
+            Font: =Font.'Segoe UI'
+            Height: =48
+            HoverBorderColor: =
+            HoverFill: =RGBA(49, 173, 161, 0.4)
+            OnSelect: |-
+                =//Set(varStatus,"Soumis")
+                UpdateContext({varStatus1: "Submitted", varStatus2: "Soumis"});
+                UpdateContext({statusSelected:true})
+            PressedBorderColor: =
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(49, 173, 161, 0.4)
+            Size: =16
+            Text: ="SUBMITTED"
+            Width: =172
+            X: =228
+            Y: =268
+            ZIndex: =43
+
+        BtnSubmit_1 As button:
+            BorderColor: =
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(49, 173, 161, 0.4)
+            Fill: |-
+                =If(
+                    varStatus1="Approved" && statusSelected,
+                    RGBA(49, 173, 161, 1),
+                    RGBA(56, 96, 178, 1)
+                )
+            Font: =Font.'Segoe UI'
+            Height: =48
+            HoverBorderColor: =
+            HoverFill: =RGBA(49, 173, 161, 0.4)
+            OnSelect: |-
+                =//Set(varStatus,"Soumis")
+                UpdateContext({varStatus1: "Approved", varStatus2: "Approuvé"});
+                UpdateContext({statusSelected:true})
+            PressedBorderColor: =
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(49, 173, 161, 0.4)
+            Size: =16
+            Text: ="APPROVED"
+            Width: =172
+            X: =425
+            Y: =268
+            ZIndex: =48
+
+    compTSInfo_2 As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =59
+
+        lblTSEndDay_2 As label:
+            Height: =60
+            Size: =21
+            Text: =varTimeSheetEnd
+            Width: =160
+            X: =460
+            Y: =186
+            ZIndex: =18
+
+        lblTSEnd_2 As label:
+            Align: =Align.Right
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            Size: =21
+            Text: |-
+                ="Fin : "
+            Width: =135
+            X: =325
+            Y: =186
+            ZIndex: =19
+
+        lblTSStartDay_2 As label:
+            Height: =60
+            Size: =21
+            Text: =varTimeSheetStart
+            Width: =160
+            X: =460
+            Y: =126
+            ZIndex: =20
+
+        lblTSStart_2 As label:
+            Align: =Align.Right
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            Size: =21
+            Text: |-
+                ="Debut : "
+            Width: =135
+            X: =325
+            Y: =126
+            ZIndex: =21
+
+        imgCalendar_2 As image:
+            Height: =143
+            Image: =schedule
+            Width: =110
+            X: =188
+            Y: =114
+            ZIndex: =22
+
+        lblTSName_2 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Bold
+            Height: =94
+            Size: =25
+            Text: =varTimeSheetName
+            Width: =176
+            Y: =139
+            ZIndex: =23
+
+    compCreateTSL_2 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =20
+        ZIndex: =67
+
+        Rectangle5_5 As rectangle:
+            Fill: =RGBA(253, 222, 207, 1)
+            Height: =340
+            Visible: =varShowpopup
+            Width: =640
+            Y: =421
+            ZIndex: =2
+
+        Label8_37 As label:
+            Height: =55
+            Size: =18
+            Text: ="Type Ligne"
+            Visible: =varShowpopup
+            Width: =177
+            X: =6
+            Y: =445
+            ZIndex: =3
+
+        Label8_39 As label:
+            Height: =74
+            Size: =18
+            Text: ="Code Projet "
+            Visible: =varShowpopup
+            Width: =200
+            X: =6
+            Y: =520
+            ZIndex: =4
+
+        Label8_38 As label:
+            Height: =74
+            Size: =18
+            Text: ="Code Tache "
+            Visible: =varShowpopup
+            Width: =186
+            X: =351
+            Y: =517
+            ZIndex: =5
+
+        Label8_42 As label:
+            Height: =74
+            Size: =18
+            Text: ="Durée"
+            Visible: =varShowpopup
+            Width: =123
+            X: =378
+            Y: =687
+            ZIndex: =6
+
+        Label8_36 As label:
+            Height: =74
+            Size: =18
+            Text: ="Facturable"
+            Visible: =varShowpopup
+            Width: =162
+            X: =359
+            Y: =436
+            ZIndex: =7
+
+        Label8_40 As label:
+            Height: =74
+            Size: =18
+            Text: ="Code cause absence"
+            Visible: =varShowpopup
+            Width: =320
+            X: =6
+            Y: =604
+            ZIndex: =8
+
+        Label8_41 As label:
+            Height: =74
+            Size: =18
+            Text: ="Code type travail"
+            Visible: =varShowpopup
+            Width: =256
+            X: =6
+            Y: =687
+            ZIndex: =9
+
+        ComboBox1_25 As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(0, 0, 0, 1)
+            DisplayFields: =["Value"]
+            Height: =45
+            IsSearchable: =false
+            Items: =["Oui","Non"]
+            SearchFields: =["Value"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 0, 0, 1)
+            Size: =21
+            Visible: =varShowpopup
+            Width: =122
+            X: =500
+            Y: =451
+            ZIndex: =10
+
+        TextInput4_5 As text:
+            Default: ="Job"
+            DisplayMode: =DisplayMode.View
+            Height: =45
+            HintText: ="Job"
+            Size: =21
+            Visible: =varShowpopup
+            Width: =91
+            X: =171
+            Y: =451
+            ZIndex: =11
+
+        ComboBox1_26 As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(0, 0, 0, 1)
+            DisplayFields: =["jobTaskNo"]
+            Height: =45
+            IsSearchable: =false
+            Items: =colThisDayTasks
+            SearchFields: =["jobTaskNo"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 0, 0, 1)
+            Size: =21
+            Visible: =varShowpopup
+            Width: =122
+            X: =501
+            Y: =530
+            ZIndex: =12
+
+        ComboBox1_27 As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(0, 0, 0, 1)
+            DisplayFields: =["jobNo"]
+            Height: =43
+            IsSearchable: =false
+            Items: =colThisDayTasks
+            SearchFields: =["jobTaskNo"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 0, 0, 1)
+            Size: =21
+            Visible: =varShowpopup
+            Width: =169
+            X: =183
+            Y: =532
+            ZIndex: =13
+
+        ComboBox1_29 As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(0, 0, 0, 1)
+            DisplayFields: =["Value"]
+            Height: =45
+            IsSearchable: =false
+            Items: =[0,1,2,3,4,5,6,7,8]
+            SearchFields: =["Value"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 0, 0, 1)
+            Size: =21
+            Visible: =varShowpopup
+            Width: =122
+            X: =485
+            Y: =702
+            ZIndex: =14
+
+        ComboBox1_28 As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(0, 0, 0, 1)
+            DisplayFields: =["causeOfAbsenceCode"]
+            Height: =45
+            IsSearchable: =false
+            Items: =colThisDayTasks
+            SearchFields: =["causeOfAbsenceCode"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 0, 0, 1)
+            Size: =21
+            Visible: =varShowpopup
+            Width: =183
+            X: =281
+            Y: =619
+            ZIndex: =15
+
+    compCreateTSL_3 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =-254
+        ZIndex: =82
+
+        Rectangle5_11 As rectangle:
+            Fill: =RGBA(253, 222, 207, 1)
+            Height: =340
+            Visible: =varShowpopup
+            Width: =640
+            Y: =403
+            ZIndex: =27
+
+        Label8_68 As label:
+            Height: =55
+            Size: =18
+            Text: ="Type Ligne"
+            Visible: =varShowpopup
+            Width: =177
+            X: =46
+            Y: =427
+            ZIndex: =28
+
+        Label8_67 As label:
+            Height: =74
+            Size: =18
+            Text: ="Code Projet "
+            Visible: =varShowpopup
+            Width: =200
+            X: =46
+            Y: =502
+            ZIndex: =29
+
+        Label8_69 As label:
+            Height: =74
+            Size: =18
+            Text: ="Code Tache "
+            Visible: =varShowpopup
+            Width: =186
+            X: =391
+            Y: =499
+            ZIndex: =30
+
+        Label8_58 As label:
+            Height: =74
+            Size: =18
+            Text: ="Durée"
+            Visible: =varShowpopup
+            Width: =123
+            X: =418
+            Y: =669
+            ZIndex: =31
+
+        Label8_70 As label:
+            Height: =74
+            Size: =18
+            Text: ="Facturable"
+            Visible: =varShowpopup
+            Width: =162
+            X: =399
+            Y: =418
+            ZIndex: =32
+
+        Label8_65 As label:
+            Height: =74
+            Size: =18
+            Text: ="Code cause absence"
+            Visible: =varShowpopup
+            Width: =320
+            X: =46
+            Y: =586
+            ZIndex: =33
+
+        Label8_61 As label:
+            Height: =74
+            Size: =18
+            Text: ="Code type travail"
+            Visible: =varShowpopup
+            Width: =256
+            X: =46
+            Y: =669
+            ZIndex: =34
+
+        ComboBox1_30 As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(0, 0, 0, 1)
+            DisplayFields: =["Value"]
+            Height: =45
+            IsSearchable: =false
+            Items: =["Oui","Non"]
+            SearchFields: =["Value"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 0, 0, 1)
+            Size: =21
+            Visible: =varShowpopup
+            Width: =122
+            X: =518
+            Y: =433
+            ZIndex: =35
+
+        TextInput4_6 As text:
+            Default: ="Job"
+            DisplayMode: =DisplayMode.View
+            Height: =45
+            HintText: ="Job"
+            Size: =21
+            Visible: =varShowpopup
+            Width: =91
+            X: =211
+            Y: =433
+            ZIndex: =36
+
+        ComboBox1_33 As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(0, 0, 0, 1)
+            DisplayFields: =["jobTaskNo"]
+            Height: =45
+            IsSearchable: =false
+            Items: =colThisDayTasks
+            SearchFields: =["jobTaskNo"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 0, 0, 1)
+            Size: =21
+            Visible: =varShowpopup
+            Width: =122
+            X: =518
+            Y: =512
+            ZIndex: =37
+
+        ComboBox1_34 As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(0, 0, 0, 1)
+            DisplayFields: =["jobNo"]
+            Height: =43
+            IsSearchable: =false
+            Items: =colThisDayTasks
+            SearchFields: =["jobTaskNo"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 0, 0, 1)
+            Size: =21
+            Visible: =varShowpopup
+            Width: =169
+            X: =223
+            Y: =514
+            ZIndex: =38
+
+        ComboBox1_32 As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(0, 0, 0, 1)
+            DisplayFields: =["Value"]
+            Height: =45
+            IsSearchable: =false
+            Items: =[0,1,2,3,4,5,6,7,8]
+            SearchFields: =["Value"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 0, 0, 1)
+            Size: =21
+            Visible: =varShowpopup
+            Width: =122
+            X: =518
+            Y: =684
+            ZIndex: =39
+
+        ComboBox1_31 As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            ChevronBackground: =RGBA(0, 0, 0, 1)
+            DisplayFields: =["causeOfAbsenceCode"]
+            Height: =45
+            IsSearchable: =false
+            Items: =colThisDayTasks
+            SearchFields: =["causeOfAbsenceCode"]
+            SearchItems: =[]
+            SelectionFill: =RGBA(0, 0, 0, 1)
+            Size: =21
+            Visible: =varShowpopup
+            Width: =183
+            X: =321
+            Y: =601
+            ZIndex: =40
+

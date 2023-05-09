@@ -1,0 +1,562 @@
+<application xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:service="https://europe-002.azure-apim.net/apim/bc-2dtsldetailsdate-5f53a2ceb06f5245c6-5f161ba5d564a9dc0a" xmlns:siena="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11" siena:serviceId="BC-TSLDetailsDate" xmlns="http://wadl.dev.java.net/2009/02">
+  <doc title="BC-TSLDetailsDate"></doc>
+  <grammars>
+    <jsonTypes targetNamespace="https://europe-002.azure-apim.net/apim/bc-2dtsldetailsdate-5f53a2ceb06f5245c6-5f161ba5d564a9dc0a" xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+      <string name="TSLDetailsDate_responses_default_def__ux40_odata_context_def" />
+      <string name="TSLDetailsDate_responses_default_def__ux40_odata_etag_def" />
+      <string name="TSLDetailsDate_responses_default_def_timeSheetNo_def" />
+      <integer name="TSLDetailsDate_responses_default_def_timeSheetLineNo_def" />
+      <string name="TSLDetailsDate_responses_default_def_date_def" />
+      <integer name="TSLDetailsDate_responses_default_def_assemblyOrderLineNo_def" />
+      <string name="TSLDetailsDate_responses_default_def_assemblyOrderNo_def" />
+      <string name="TSLDetailsDate_responses_default_def_causeOfAbsenceCode_def" />
+      <integer name="TSLDetailsDate_responses_default_def_dimensionSetID_def" />
+      <string name="TSLDetailsDate_responses_default_def_id_def" />
+      <string name="TSLDetailsDate_responses_default_def_jobId_def" />
+      <string name="TSLDetailsDate_responses_default_def_jobNo_def" />
+      <string name="TSLDetailsDate_responses_default_def_jobTaskNo_def" />
+      <string name="TSLDetailsDate_responses_default_def_lastModifiedDateTime_def" />
+      <boolean name="TSLDetailsDate_responses_default_def_posted_def" />
+      <integer name="TSLDetailsDate_responses_default_def_postedQuantity_def" />
+      <integer name="TSLDetailsDate_responses_default_def_quantity_def" />
+      <string name="TSLDetailsDate_responses_default_def_resourceNo_def" />
+      <integer name="TSLDetailsDate_responses_default_def_serviceOrderLineNo_def" />
+      <string name="TSLDetailsDate_responses_default_def_serviceOrderNo_def" />
+      <string name="TSLDetailsDate_responses_default_def_status_def" />
+      <string name="TSLDetailsDate_responses_default_def_systemCreatedAt_def" />
+      <string name="TSLDetailsDate_responses_default_def_systemCreatedBy_def" />
+      <string name="TSLDetailsDate_responses_default_def_systemId_def" />
+      <string name="TSLDetailsDate_responses_default_def_systemModifiedAt_def" />
+      <string name="TSLDetailsDate_responses_default_def_systemModifiedBy_def" />
+      <string name="TSLDetailsDate_responses_default_def_type_def" />
+      <object name="TSLDetailsDate_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="@odata.etag" type="string" />
+        <property name="timeSheetNo" type="string" />
+        <property name="timeSheetLineNo" type="integer" />
+        <property name="date" type="string" />
+        <property name="assemblyOrderLineNo" type="integer" />
+        <property name="assemblyOrderNo" type="string" />
+        <property name="causeOfAbsenceCode" type="string" />
+        <property name="dimensionSetID" type="integer" />
+        <property name="id" type="string" />
+        <property name="jobId" type="string" />
+        <property name="jobNo" type="string" />
+        <property name="jobTaskNo" type="string" />
+        <property name="lastModifiedDateTime" type="string" />
+        <property name="posted" type="boolean" />
+        <property name="postedQuantity" type="integer" />
+        <property name="quantity" type="integer" />
+        <property name="resourceNo" type="string" />
+        <property name="serviceOrderLineNo" type="integer" />
+        <property name="serviceOrderNo" type="string" />
+        <property name="status" type="string" />
+        <property name="systemCreatedAt" type="string" />
+        <property name="systemCreatedBy" type="string" />
+        <property name="systemId" type="string" />
+        <property name="systemModifiedAt" type="string" />
+        <property name="systemModifiedBy" type="string" />
+        <property name="type" type="string" />
+      </object>
+      <integer name="UpdateTSL_param_body_def_quantity_def" />
+      <object name="UpdateTSL_param_body_def">
+        <property name="quantity" type="integer" />
+      </object>
+      <string name="NewTSLDetail_param_body_def_timeSheetNo_def" />
+      <string name="NewTSLDetail_param_body_def_jobNo_def" />
+      <string name="NewTSLDetail_param_body_def_jobTaskNo_def" />
+      <string name="NewTSLDetail_param_body_def_date_def" />
+      <integer name="NewTSLDetail_param_body_def_timeSheetLineNo_def" />
+      <integer name="NewTSLDetail_param_body_def_quantity_def" />
+      <string name="NewTSLDetail_param_body_def_type_def" />
+      <object name="NewTSLDetail_param_body_def">
+        <property name="timeSheetNo" type="string" />
+        <property name="jobNo" type="string" />
+        <property name="jobTaskNo" type="string" />
+        <property name="date" type="string" />
+        <property name="timeSheetLineNo" type="integer" />
+        <property name="quantity" type="integer" />
+        <property name="type" type="string" />
+      </object>
+      <string name="NewTSLDetail_responses_default_def__ux40_odata_context_def" />
+      <string name="NewTSLDetail_responses_default_def__ux40_odata_etag_def" />
+      <string name="NewTSLDetail_responses_default_def_timeSheetNo_def" />
+      <integer name="NewTSLDetail_responses_default_def_timeSheetLineNo_def" />
+      <string name="NewTSLDetail_responses_default_def_date_def" />
+      <integer name="NewTSLDetail_responses_default_def_assemblyOrderLineNo_def" />
+      <string name="NewTSLDetail_responses_default_def_assemblyOrderNo_def" />
+      <string name="NewTSLDetail_responses_default_def_causeOfAbsenceCode_def" />
+      <integer name="NewTSLDetail_responses_default_def_dimensionSetID_def" />
+      <string name="NewTSLDetail_responses_default_def_id_def" />
+      <string name="NewTSLDetail_responses_default_def_jobId_def" />
+      <string name="NewTSLDetail_responses_default_def_jobNo_def" />
+      <string name="NewTSLDetail_responses_default_def_jobTaskNo_def" />
+      <string name="NewTSLDetail_responses_default_def_lastModifiedDateTime_def" />
+      <boolean name="NewTSLDetail_responses_default_def_posted_def" />
+      <integer name="NewTSLDetail_responses_default_def_postedQuantity_def" />
+      <integer name="NewTSLDetail_responses_default_def_quantity_def" />
+      <string name="NewTSLDetail_responses_default_def_resourceNo_def" />
+      <integer name="NewTSLDetail_responses_default_def_serviceOrderLineNo_def" />
+      <string name="NewTSLDetail_responses_default_def_serviceOrderNo_def" />
+      <string name="NewTSLDetail_responses_default_def_status_def" />
+      <string name="NewTSLDetail_responses_default_def_systemCreatedAt_def" />
+      <string name="NewTSLDetail_responses_default_def_systemCreatedBy_def" />
+      <string name="NewTSLDetail_responses_default_def_systemId_def" />
+      <string name="NewTSLDetail_responses_default_def_systemModifiedAt_def" />
+      <string name="NewTSLDetail_responses_default_def_systemModifiedBy_def" />
+      <string name="NewTSLDetail_responses_default_def_type_def" />
+      <object name="NewTSLDetail_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="@odata.etag" type="string" />
+        <property name="timeSheetNo" type="string" />
+        <property name="timeSheetLineNo" type="integer" />
+        <property name="date" type="string" />
+        <property name="assemblyOrderLineNo" type="integer" />
+        <property name="assemblyOrderNo" type="string" />
+        <property name="causeOfAbsenceCode" type="string" />
+        <property name="dimensionSetID" type="integer" />
+        <property name="id" type="string" />
+        <property name="jobId" type="string" />
+        <property name="jobNo" type="string" />
+        <property name="jobTaskNo" type="string" />
+        <property name="lastModifiedDateTime" type="string" />
+        <property name="posted" type="boolean" />
+        <property name="postedQuantity" type="integer" />
+        <property name="quantity" type="integer" />
+        <property name="resourceNo" type="string" />
+        <property name="serviceOrderLineNo" type="integer" />
+        <property name="serviceOrderNo" type="string" />
+        <property name="status" type="string" />
+        <property name="systemCreatedAt" type="string" />
+        <property name="systemCreatedBy" type="string" />
+        <property name="systemId" type="string" />
+        <property name="systemModifiedAt" type="string" />
+        <property name="systemModifiedBy" type="string" />
+        <property name="type" type="string" />
+      </object>
+      <string name="NewTSLine_param_body_def_timeSheetNo_def" />
+      <string name="NewTSLine_param_body_def_type_def" />
+      <string name="NewTSLine_param_body_def_jobNo_def" />
+      <string name="NewTSLine_param_body_def_jobTaskNo_def" />
+      <integer name="NewTSLine_param_body_def_lineNo_def" />
+      <object name="NewTSLine_param_body_def">
+        <property name="timeSheetNo" type="string" />
+        <property name="type" type="string" />
+        <property name="jobNo" type="string" />
+        <property name="jobTaskNo" type="string" />
+        <property name="lineNo" type="integer" />
+      </object>
+      <string name="NewTSLine_responses_default_def__ux40_odata_context_def" />
+      <string name="NewTSLine_responses_default_def__ux40_odata_etag_def" />
+      <string name="NewTSLine_responses_default_def_systemId_def" />
+      <string name="NewTSLine_responses_default_def_type_def" />
+      <string name="NewTSLine_responses_default_def_approvalDate_def" />
+      <string name="NewTSLine_responses_default_def_approvedBy_def" />
+      <string name="NewTSLine_responses_default_def_approverID_def" />
+      <integer name="NewTSLine_responses_default_def_assemblyOrderLineNo_def" />
+      <string name="NewTSLine_responses_default_def_assemblyOrderNo_def" />
+      <string name="NewTSLine_responses_default_def_causeOfAbsenceCode_def" />
+      <boolean name="NewTSLine_responses_default_def_chargeable_def" />
+      <boolean name="NewTSLine_responses_default_def_comment_def" />
+      <string name="NewTSLine_responses_default_def_description_def" />
+      <integer name="NewTSLine_responses_default_def_dimensionSetID_def" />
+      <string name="NewTSLine_responses_default_def_jobId_def" />
+      <string name="NewTSLine_responses_default_def_jobNo_def" />
+      <string name="NewTSLine_responses_default_def_jobTaskNo_def" />
+      <integer name="NewTSLine_responses_default_def_lineNo_def" />
+      <boolean name="NewTSLine_responses_default_def_posted_def" />
+      <integer name="NewTSLine_responses_default_def_serviceOrderLineNo_def" />
+      <string name="NewTSLine_responses_default_def_serviceOrderNo_def" />
+      <string name="NewTSLine_responses_default_def_status_def" />
+      <string name="NewTSLine_responses_default_def_systemCreatedAt_def" />
+      <string name="NewTSLine_responses_default_def_systemCreatedBy_def" />
+      <string name="NewTSLine_responses_default_def_systemModifiedAt_def" />
+      <string name="NewTSLine_responses_default_def_systemModifiedBy_def" />
+      <string name="NewTSLine_responses_default_def_timeSheetNo_def" />
+      <string name="NewTSLine_responses_default_def_timeSheetStartingDate_def" />
+      <integer name="NewTSLine_responses_default_def_totalQuantity_def" />
+      <string name="NewTSLine_responses_default_def_workTypeCode_def" />
+      <object name="NewTSLine_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="@odata.etag" type="string" />
+        <property name="systemId" type="string" />
+        <property name="type" type="string" />
+        <property name="approvalDate" type="string" />
+        <property name="approvedBy" type="string" />
+        <property name="approverID" type="string" />
+        <property name="assemblyOrderLineNo" type="integer" />
+        <property name="assemblyOrderNo" type="string" />
+        <property name="causeOfAbsenceCode" type="string" />
+        <property name="chargeable" type="boolean" />
+        <property name="comment" type="boolean" />
+        <property name="description" type="string" />
+        <property name="dimensionSetID" type="integer" />
+        <property name="jobId" type="string" />
+        <property name="jobNo" type="string" />
+        <property name="jobTaskNo" type="string" />
+        <property name="lineNo" type="integer" />
+        <property name="posted" type="boolean" />
+        <property name="serviceOrderLineNo" type="integer" />
+        <property name="serviceOrderNo" type="string" />
+        <property name="status" type="string" />
+        <property name="systemCreatedAt" type="string" />
+        <property name="systemCreatedBy" type="string" />
+        <property name="systemModifiedAt" type="string" />
+        <property name="systemModifiedBy" type="string" />
+        <property name="timeSheetNo" type="string" />
+        <property name="timeSheetStartingDate" type="string" />
+        <property name="totalQuantity" type="integer" />
+        <property name="workTypeCode" type="string" />
+      </object>
+      <string name="JobDtls_responses_default_def__ux40_odata_context_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def__ux40_odata_etag_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_systemId_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_blocked_def" />
+      <boolean name="JobDtls_responses_default_def_value_def_items_def_comment_def" />
+      <boolean name="JobDtls_responses_default_def_value_def_items_def_complete_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_creationDate_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_description_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_description2_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_endingDate_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_jobPostingGroup_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_lastDateModified_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_no_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_noSeries_def" />
+      <boolean name="JobDtls_responses_default_def_value_def_items_def_overBudget_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_projectManager_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_reserve_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_searchDescription_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_sellToEMail_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_startingDate_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_status_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_systemCreatedAt_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_systemCreatedBy_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_systemModifiedAt_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_systemModifiedBy_def" />
+      <integer name="JobDtls_responses_default_def_value_def_items_def_totalWIPCostAmount_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def__ux40_odata_etag_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_jobNo_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_jobTaskNo_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_description_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_endDate_def" />
+      <integer name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_indentation_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_jobPostingGroup_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_jobTaskType_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_startDate_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_systemCreatedAt_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_systemCreatedBy_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_systemId_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_systemModifiedAt_def" />
+      <string name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def_systemModifiedBy_def" />
+      <object name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def">
+        <property name="@odata.etag" type="string" />
+        <property name="jobNo" type="string" />
+        <property name="jobTaskNo" type="string" />
+        <property name="description" type="string" />
+        <property name="endDate" type="string" />
+        <property name="indentation" type="integer" />
+        <property name="jobPostingGroup" type="string" />
+        <property name="jobTaskType" type="string" />
+        <property name="startDate" type="string" />
+        <property name="systemCreatedAt" type="string" />
+        <property name="systemCreatedBy" type="string" />
+        <property name="systemId" type="string" />
+        <property name="systemModifiedAt" type="string" />
+        <property name="systemModifiedBy" type="string" />
+      </object>
+      <array typeRef="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def_items_def" name="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def" />
+      <object name="JobDtls_responses_default_def_value_def_items_def">
+        <property name="@odata.etag" type="string" />
+        <property name="systemId" type="string" />
+        <property name="blocked" type="string" />
+        <property name="comment" type="boolean" />
+        <property name="complete" type="boolean" />
+        <property name="creationDate" type="string" />
+        <property name="description" type="string" />
+        <property name="description2" type="string" />
+        <property name="endingDate" type="string" />
+        <property name="jobPostingGroup" type="string" />
+        <property name="lastDateModified" type="string" />
+        <property name="no" type="string" />
+        <property name="noSeries" type="string" />
+        <property name="overBudget" type="boolean" />
+        <property name="projectManager" type="string" />
+        <property name="reserve" type="string" />
+        <property name="searchDescription" type="string" />
+        <property name="sellToEMail" type="string" />
+        <property name="startingDate" type="string" />
+        <property name="status" type="string" />
+        <property name="systemCreatedAt" type="string" />
+        <property name="systemCreatedBy" type="string" />
+        <property name="systemModifiedAt" type="string" />
+        <property name="systemModifiedBy" type="string" />
+        <property name="totalWIPCostAmount" type="integer" />
+        <property name="JobDtlsjobTask" typeRef="JobDtls_responses_default_def_value_def_items_def_JobDtlsjobTask_def" />
+      </object>
+      <array typeRef="JobDtls_responses_default_def_value_def_items_def" name="JobDtls_responses_default_def_value_def" />
+      <object name="JobDtls_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="value" typeRef="JobDtls_responses_default_def_value_def" />
+      </object>
+      <string name="TSLDetail_responses_default_def__ux40_odata_context_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def__ux40_odata_etag_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_timeSheetNo_def" />
+      <integer name="TSLDetail_responses_default_def_value_def_items_def_timeSheetLineNo_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_date_def" />
+      <integer name="TSLDetail_responses_default_def_value_def_items_def_assemblyOrderLineNo_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_assemblyOrderNo_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_causeOfAbsenceCode_def" />
+      <integer name="TSLDetail_responses_default_def_value_def_items_def_dimensionSetID_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_jobId_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_jobNo_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_jobTaskNo_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_lastModifiedDateTime_def" />
+      <boolean name="TSLDetail_responses_default_def_value_def_items_def_posted_def" />
+      <integer name="TSLDetail_responses_default_def_value_def_items_def_postedQuantity_def" />
+      <integer name="TSLDetail_responses_default_def_value_def_items_def_quantity_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_resourceNo_def" />
+      <integer name="TSLDetail_responses_default_def_value_def_items_def_serviceOrderLineNo_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_serviceOrderNo_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_status_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_systemCreatedAt_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_systemCreatedBy_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_systemId_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_systemModifiedAt_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_systemModifiedBy_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_type_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_jobDescription_def" />
+      <string name="TSLDetail_responses_default_def_value_def_items_def_jobTaskDescription_def" />
+      <object name="TSLDetail_responses_default_def_value_def_items_def">
+        <property name="@odata.etag" type="string" />
+        <property name="timeSheetNo" type="string" />
+        <property name="timeSheetLineNo" type="integer" />
+        <property name="date" type="string" />
+        <property name="assemblyOrderLineNo" type="integer" />
+        <property name="assemblyOrderNo" type="string" />
+        <property name="causeOfAbsenceCode" type="string" />
+        <property name="dimensionSetID" type="integer" />
+        <property name="jobId" type="string" />
+        <property name="jobNo" type="string" />
+        <property name="jobTaskNo" type="string" />
+        <property name="lastModifiedDateTime" type="string" />
+        <property name="posted" type="boolean" />
+        <property name="postedQuantity" type="integer" />
+        <property name="quantity" type="integer" />
+        <property name="resourceNo" type="string" />
+        <property name="serviceOrderLineNo" type="integer" />
+        <property name="serviceOrderNo" type="string" />
+        <property name="status" type="string" />
+        <property name="systemCreatedAt" type="string" />
+        <property name="systemCreatedBy" type="string" />
+        <property name="systemId" type="string" />
+        <property name="systemModifiedAt" type="string" />
+        <property name="systemModifiedBy" type="string" />
+        <property name="type" type="string" />
+        <property name="jobDescription" type="string" />
+        <property name="jobTaskDescription" type="string" />
+      </object>
+      <array typeRef="TSLDetail_responses_default_def_value_def_items_def" name="TSLDetail_responses_default_def_value_def" />
+      <object name="TSLDetail_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="value" typeRef="TSLDetail_responses_default_def_value_def" />
+      </object>
+      <string name="UpdateTSLineStatus_param_body_def_status_def" />
+      <object name="UpdateTSLineStatus_param_body_def">
+        <property name="status" type="string" />
+      </object>
+      <string name="UpdateTSLineStatus_responses_default_def__ux40_odata_context_def" />
+      <string name="UpdateTSLineStatus_responses_default_def__ux40_odata_etag_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_systemId_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_type_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_approvalDate_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_approvedBy_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_approverID_def" />
+      <integer name="UpdateTSLineStatus_responses_default_def_assemblyOrderLineNo_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_assemblyOrderNo_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_causeOfAbsenceCode_def" />
+      <boolean name="UpdateTSLineStatus_responses_default_def_chargeable_def" />
+      <boolean name="UpdateTSLineStatus_responses_default_def_comment_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_description_def" />
+      <integer name="UpdateTSLineStatus_responses_default_def_dimensionSetID_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_jobId_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_jobNo_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_jobTaskNo_def" />
+      <integer name="UpdateTSLineStatus_responses_default_def_lineNo_def" />
+      <boolean name="UpdateTSLineStatus_responses_default_def_posted_def" />
+      <integer name="UpdateTSLineStatus_responses_default_def_serviceOrderLineNo_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_serviceOrderNo_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_status_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_systemCreatedAt_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_systemCreatedBy_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_systemModifiedAt_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_systemModifiedBy_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_timeSheetNo_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_timeSheetStartingDate_def" />
+      <integer name="UpdateTSLineStatus_responses_default_def_totalQuantity_def" />
+      <string name="UpdateTSLineStatus_responses_default_def_workTypeCode_def" />
+      <object name="UpdateTSLineStatus_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="@odata.etag" type="string" />
+        <property name="systemId" type="string" />
+        <property name="type" type="string" />
+        <property name="approvalDate" type="string" />
+        <property name="approvedBy" type="string" />
+        <property name="approverID" type="string" />
+        <property name="assemblyOrderLineNo" type="integer" />
+        <property name="assemblyOrderNo" type="string" />
+        <property name="causeOfAbsenceCode" type="string" />
+        <property name="chargeable" type="boolean" />
+        <property name="comment" type="boolean" />
+        <property name="description" type="string" />
+        <property name="dimensionSetID" type="integer" />
+        <property name="jobId" type="string" />
+        <property name="jobNo" type="string" />
+        <property name="jobTaskNo" type="string" />
+        <property name="lineNo" type="integer" />
+        <property name="posted" type="boolean" />
+        <property name="serviceOrderLineNo" type="integer" />
+        <property name="serviceOrderNo" type="string" />
+        <property name="status" type="string" />
+        <property name="systemCreatedAt" type="string" />
+        <property name="systemCreatedBy" type="string" />
+        <property name="systemModifiedAt" type="string" />
+        <property name="systemModifiedBy" type="string" />
+        <property name="timeSheetNo" type="string" />
+        <property name="timeSheetStartingDate" type="string" />
+        <property name="totalQuantity" type="integer" />
+        <property name="workTypeCode" type="string" />
+      </object>
+    </jsonTypes>
+  </grammars>
+  <resources siena:authenticationProviderHref="#PowerAppAuth" base="https://europe-002.azure-apim.net/apim/bc-2dtsldetailsdate-5f53a2ceb06f5245c6-5f161ba5d564a9dc0a">
+    <resource path="/{connectionId}/v2.0/26d7a21f-35cc-4707-9ef7-968f9ffd8f8b/FR_SB/ODataV4/Company('{CompanyName}')/TimeSheetDtls(timeSheetNo='{TSNo}', timeSheetLineNo={TSLNo}, date={TSLDate})">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="CompanyName" type="xs:string" required="true" />
+      <param style="template" name="TSNo" type="xs:string" required="true" />
+      <param style="template" name="TSLNo" type="xs:string" required="true" />
+      <param style="template" name="TSLDate" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="TSLDetailsDate" siena:isDeprecated="false">
+        <doc title="TSLDetails with Date&#xA;TSLDetails with Date" />
+        <request />
+        <response>
+          <representation mediaType="application/json" element="service:TSLDetailsDate_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/v2.0/26d7a21f-35cc-4707-9ef7-968f9ffd8f8b/FR_SB/ODataV4/Company('{CompanyName}')/TimeSheetDtls(timeSheetNo='{TSNo}', timeSheetLineNo={TSLNo}, date={TSLDate})">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="CompanyName" type="xs:string" required="true" />
+      <param style="template" name="TSNo" type="xs:string" required="true" />
+      <param style="template" name="TSLNo" type="xs:string" required="true" />
+      <param style="template" name="TSLDate" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="DELETE" id="DeleteTSL" siena:isDeprecated="false">
+        <doc title="DeleteTSL&#xA;Delete Time Sheet Line data" />
+        <request />
+      </method>
+    </resource>
+    <resource path="/{connectionId}/v2.0/26d7a21f-35cc-4707-9ef7-968f9ffd8f8b/FR_SB/ODataV4/Company('{CompanyName}')/TimeSheetDtls(timeSheetNo='{TSNo}', timeSheetLineNo={TSLNo}, date={TSLDate})">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="CompanyName" type="xs:string" required="true" />
+      <param style="template" name="TSNo" type="xs:string" required="true" />
+      <param style="template" name="TSLNo" type="xs:string" required="true" />
+      <param style="template" name="TSLDate" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="PATCH" id="UpdateTSL" siena:isDeprecated="false">
+        <doc title="Patch TSL informations&#xA;Patch Time Sheet Line data" />
+        <request>
+          <param style="header" name="If-Match" type="xs:string" />
+          <representation mediaType="application/json">
+            <param style="plain" name="quantity" path="/quantity" type="xs:int" />
+          </representation>
+        </request>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/v2.0/26d7a21f-35cc-4707-9ef7-968f9ffd8f8b/FR_SB/ODataV4/Company('{CompanyName}')/TimeSheetDtls">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="CompanyName" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="NewTSLDetail" siena:isDeprecated="false">
+        <doc title="NewTSLDetail&#xA;NewTSLDetail" />
+        <request>
+          <representation mediaType="application/json">
+            <param style="plain" name="timeSheetNo" path="/timeSheetNo" type="xs:string" />
+            <param style="plain" name="jobNo" path="/jobNo" type="xs:string" />
+            <param style="plain" name="jobTaskNo" path="/jobTaskNo" type="xs:string" />
+            <param style="plain" name="date" path="/date" type="xs:string" />
+            <param style="plain" name="timeSheetLineNo" path="/timeSheetLineNo" type="xs:int" />
+            <param style="plain" name="quantity" path="/quantity" type="xs:int" />
+            <param style="plain" name="type" path="/type" type="xs:string" />
+          </representation>
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:NewTSLDetail_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/v2.0/26d7a21f-35cc-4707-9ef7-968f9ffd8f8b/FR_SB/ODataV4/Company('{companyName}')/TimeSheetLineComplete">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="companyName" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="NewTSLine" siena:isDeprecated="false">
+        <doc title="NewTSLine&#xA;NewTSLine" />
+        <request>
+          <representation mediaType="application/json">
+            <param style="plain" name="timeSheetNo" path="/timeSheetNo" type="xs:string" />
+            <param style="plain" name="type" path="/type" type="xs:string" />
+            <param style="plain" name="jobNo" path="/jobNo" type="xs:string" />
+            <param style="plain" name="jobTaskNo" path="/jobTaskNo" type="xs:string" />
+            <param style="plain" name="lineNo" path="/lineNo" type="xs:int" />
+          </representation>
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:NewTSLine_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/v2.0/26d7a21f-35cc-4707-9ef7-968f9ffd8f8b/FR_SB/ODataV4/Company('{CompanyName}')/JobDtls">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="CompanyName" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="JobDtls" siena:isDeprecated="false">
+        <doc title="JobDtls&#xA;liste des jobs dans BC" />
+        <request>
+          <param style="query" name="$expand" type="xs:string" />
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:JobDtls_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/v2.0/26d7a21f-35cc-4707-9ef7-968f9ffd8f8b/FR_SB/ODataV4/Company('CRONUS FR')/TimeSheetDtls">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="TSLDetail" siena:isDeprecated="false">
+        <doc title="TSLDetail&#xA;TSLDetail" />
+        <request />
+        <response>
+          <representation mediaType="application/json" element="service:TSLDetail_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/v2.0/26d7a21f-35cc-4707-9ef7-968f9ffd8f8b/FR_SB/ODataV4/Company('{companyName}')/TimeSheetLineComplete({TSLSystemId})">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="companyName" type="xs:string" required="true" />
+      <param style="template" name="TSLSystemId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="PATCH" id="UpdateTSLineStatus" siena:isDeprecated="false">
+        <doc title="UpdateTSLineStatus&#xA;UpdateTSLineStatus" />
+        <request>
+          <param style="header" name="If-Match" type="xs:string" />
+          <representation mediaType="application/json">
+            <param style="plain" name="status" path="/status" type="xs:string" />
+          </representation>
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:UpdateTSLineStatus_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+  </resources>
+  <authenticationProviders xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <connectionProvider id="PowerAppAuth" siena:connectionProviderId="bc-2dtsldetailsdate-5f53a2ceb06f5245c6-5f161ba5d564a9dc0a" />
+  </authenticationProviders>
+  <template xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <variable name="connectionId">
+      <modifyParams style="template" name="connectionId" attribute="fixed" />
+    </variable>
+  </template>
+</application>

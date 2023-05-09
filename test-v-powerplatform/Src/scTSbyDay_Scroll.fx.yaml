@@ -1,0 +1,1248 @@
+scTSbyDay_Scroll As screen:
+    Fill: =
+    OnHidden: |-
+        =UpdateContext({OneClicked:false, ctxDaySelected:""});
+    OnVisible: |-
+        =//UpdateContext({OneClicked:false, ctxDaySelected:""});
+        UpdateContext({OneClicked:false});
+        UpdateContext({Day:""});
+        UpdateContext({ctxShowInput:false});
+        Set(varShowpopup, false);
+        UpdateContext({ctxDeletePopUp:false});
+        Set(varNewLinePopUP, false)
+
+    ComponentFooter_7 As ComponentFooter:
+        Title_page: ="Nom de l'entreprise"
+        Y: =1066
+
+    btnValidatePatch_2 As button:
+        BorderColor: =
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(255, 255, 255, 1)
+        DisabledFill: =RGBA(49, 173, 161, 0.4)
+        DisplayMode: |-
+            =If(CountIf(ColOutput,!IsBlankOrError(inputQty))>1,
+            DisplayMode.Edit,
+            DisplayMode.Disabled)
+        Fill: =RGBA(49, 173, 161, 1)
+        Font: =Font.'Segoe UI'
+        Height: =70
+        HoverBorderColor: =
+        HoverFill: =RGBA(49, 173, 161, 0.4)
+        OnSelect: |-
+            =Clear(ColOutput);
+            // Création/Refresh d'une collection contenant les valeurs des inputs de notre gallery avec des etag de chaque item
+            ForAll(galTSDayDetail_3.AllItems,Collect(ColOutput, {id:'@odata.etag', inputQty:InputUpdateQty_3.Text}));
+            
+            // Mise à jour de toutes les quantités modifiées dans la galerie
+            ForAll(
+                // On boucle sur le nombre d'items qu'on a dans notre source qui affiche le nombre de tasks par jour
+                Filter(
+                    colThisDayTasks,
+                    timeSheetNo = varTimeSheetName,
+                    date = ctxDaySelected,
+                    status= "Open" || "Ouvert"
+                ),
+                //On fait appel à notre custom connector pour faire la maj des quantités
+                'BC-TSLDetailsDate'.UpdateTSL(
+                    "CRONUS FR",
+                    ThisRecord.timeSheetNo,
+                    ThisRecord.timeSheetLineNo,
+                    ThisRecord.date,
+                    {
+                        'If-Match': ThisRecord.'@odata.etag',
+                        quantity:
+                        If(
+                            IsBlankOrError(LookUp(ColOutput,'@odata.etag'=ThisRecord.id).inputQty),
+                            ThisRecord.quantity,
+                            LookUp(ColOutput,'@odata.etag'=ThisRecord.id).inputQty
+                        ) //On récupère la bonne qté dans notre collection colOuput grâce à un lookup de l'eTag
+                    }
+                )
+            );
+            
+            //2 Refresh pour MAJ les DATA du DASHBOARD
+            ClearCollect(colTSLdetails,'BC-TimeSheetsApi'.TSLDetails("CRONUS%20FR",{'$expand':"TimeSheetComplatetimeSheetLineCompletes($expand=TimeSheetComplatetimeSheetLineCompletestimeSheetDtls)"}).value);
+            
+            // Refresh de la Gallery colThiDayTasks
+            Clear(colThisDayTasks);
+            ForAll(
+                LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,
+                ForAll(ThisRecord.TimeSheetComplatetimeSheetLineCompletestimeSheetDtls,
+                    Collect(colThisDayTasks,ThisRecord)
+                )
+            );
+            Clear(ColOutput);
+        PressedBorderColor: =
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =RGBA(49, 173, 161, 0.4)
+        Size: =24
+        Text: ="Tout valider"
+        Tooltip: ="Veuillez modifier au minimum 2 champs"
+        Visible: =!IsBlank(ctxDaySelected) && !varShowpopup && CountIf(ColOutput,!IsBlankOrError(inputQty))>1
+        Width: =258
+        X: =350
+        Y: =977
+        ZIndex: =2
+
+    btnCreateTSLDetail_8 As button:
+        BorderColor: =
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(255, 255, 255, 1)
+        DisabledFill: =RGBA(49, 173, 161, 0.4)
+        DisplayMode: |-
+            =//If(CountRows(GroupBy(Filter(colThisDayTasks,Not(timeSheetLineNo in ShowColumns(Filter(colThisDayTasks,date=ctxDaySelected),"timeSheetLineNo")),status="Open"),"timeSheetLineNo","timeSheetLineNoGroup"))<1,DisplayMode.Disabled,DisplayMode.Edit)
+            DisplayMode.Edit
+        Fill: =RGBA(49, 173, 161, 1)
+        Font: =Font.'Segoe UI'
+        Height: =70
+        HoverBorderColor: =
+        HoverFill: =RGBA(49, 173, 161, 0.4)
+        OnSelect: =Set(varNewLinePopUP, !varNewLinePopUP)
+        PressedBorderColor: =
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =RGBA(49, 173, 161, 0.4)
+        Size: =24
+        Text: ="Créer un Job"
+        Tooltip: ="Créer une nouvelle ligne dans la feuille de temps"
+        Visible: |-
+            =//!IsBlank(ctxDaySelected) && !varShowpopup
+            !varShowpopup && !varNewLinePopUP
+        Width: =265
+        X: =33
+        Y: =977
+        ZIndex: =3
+
+    Image4_1 As image:
+        Height: =114
+        Image: =folder
+        Visible: =CountRows(Filter(colThisDayTasks,timeSheetNo=varTimeSheetName,date=ctxDaySelected))=0 && !IsBlank(ctxDaySelected) && !varShowpopup && !varNewLinePopUP
+        Width: =189
+        X: =218
+        Y: =372
+        ZIndex: =4
+
+    lblNoTaskDay_3 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Semibold
+        Height: =166
+        Italic: =true
+        LineHeight: =1.5
+        OnSelect: =//Select(Parent)
+        Size: =30
+        Text: ="Il n'y a pas de job task pour cette date"
+        Visible: =CountRows(Filter(colThisDayTasks,timeSheetNo=varTimeSheetName,date=ctxDaySelected))=0 && !IsBlank(ctxDaySelected) && !varShowpopup && !varNewLinePopUP
+        Width: =570
+        X: =30
+        Y: =483
+        ZIndex: =5
+
+    "galTSDayDetail_3 As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+        Height: =501
+        Items: |-
+            =Sort(Filter(
+                colThisDayTasks,
+                date=ctxDaySelected
+            ),timeSheetLineNo,SortOrder.Ascending)
+        Layout: =Layout.Vertical
+        TemplatePadding: =0
+        TemplateSize: =72
+        Visible: |
+            =CountRows(Filter(colThisDayTasks,timeSheetNo=varTimeSheetName,date=ctxDaySelected))>0 && !varShowpopup && !varNewLinePopUP
+        Y: =397
+        ZIndex: =6
+
+        lblTSLName_3 As label:
+            Height: =30
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =10
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =18
+            Text: =ThisItem.jobNo
+            VerticalAlign: =VerticalAlign.Top
+            Width: =310
+            X: =3
+            Y: =6
+            ZIndex: =1
+
+        lblTSLQty_3 As label:
+            Align: =Align.Center
+            OnSelect: =Select(Parent)
+            Size: =16
+            Text: =ThisItem.quantity & "h"
+            Width: =71
+            X: =311
+            Y: =14
+            ZIndex: =4
+
+        InputUpdateQty_3 As text:
+            Align: =Align.Center
+            BorderColor: =RGBA(49, 173, 161, 0.6)
+            BorderThickness: =1
+            Default: =
+            DisabledBorderColor: =RGBA(49, 173, 161, 0.6)
+            DisabledFill: =RGBA(179, 179, 179, 1)
+            DisplayMode: =If(ThisItem.status="Open" || ThisItem.status="Ouvert", DisplayMode.Edit, DisplayMode.Disabled)
+            Format: =TextFormat.Number
+            Height: =45
+            HoverBorderColor: =RGBA(49, 173, 161, 0.6)
+            HoverFill: =RGBA(49, 173, 161, 0.2)
+            LineHeight: =1
+            OnChange: |-
+                =Clear(ColOutput);
+                // Création/Refresh d'une collection contenant les valeurs des inputs de notre gallery avec des etag de chaque item
+                ForAll(galTSDayDetail_3.AllItems,Collect(ColOutput, {id:'@odata.etag', inputQty:InputUpdateQty_3.Text}));
+            OnSelect: =Select(Parent);
+            PaddingLeft: =5
+            PressedBorderColor: =RGBA(49, 173, 161, 0.6)
+            PressedFill: =RGBA(49, 173, 161, 0.2)
+            Size: =16
+            Visible: =ThisItem.status="Open" || ThisItem.status="Ouvert"
+            Width: =70
+            X: =443
+            Y: =11
+            ZIndex: =6
+
+        iconValidate_3 As icon.Edit:
+            Color: =RGBA(54, 176, 75, 1)
+            Height: =30
+            Icon: =Icon.Check
+            OnSelect: |-
+                =//Select(Parent);
+                Set(varSelected,Value(InputUpdateQty_3.Text));
+                //'BC-TSLDetailsDate'.UpdateTSL("CRONUS FR",varTimeSheetName,varTSL,varTSLDate,{'If-Match':varTSLToken, quantity:InputUpdateQty.Text});
+                'BC-TSLDetailsDate'.UpdateTSL("CRONUS FR",ThisItem.timeSheetNo,ThisItem.timeSheetLineNo,ThisItem.date,{'If-Match':ThisItem.'@odata.etag', quantity:Value(varSelected)});
+                
+                //2 Refresh pour MAJ les DATA du DASHBOARD
+                ClearCollect(colTSLdetails,'BC-TimeSheetsApi'.TSLDetails("CRONUS%20FR",{'$expand':"TimeSheetComplatetimeSheetLineCompletes($expand=TimeSheetComplatetimeSheetLineCompletestimeSheetDtls)"}).value);
+                
+                // Refresh de la Gallery colThiDayTasks
+                //Patch(colThisDayTasks,LookUp(colThisDayTasks,'@odata.etag'=ThisItem.'@odata.etag'),{quantity:Value(varSelected)});
+                Clear(colThisDayTasks);
+                ForAll(
+                    LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,
+                    ForAll(ThisRecord.TimeSheetComplatetimeSheetLineCompletestimeSheetDtls,
+                        Collect(colThisDayTasks,ThisRecord)
+                    )
+                );
+            Visible: |-
+                =//!ThisItem.posted
+                !IsBlankOrError(InputUpdateQty_3)
+            Width: =40
+            X: =524
+            Y: =20
+            ZIndex: =7
+
+        iconTrash_3 As icon.Edit:
+            Color: =RGBA(255, 0, 0, 1)
+            Height: =30
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =Select(Parent); UpdateContext({ctxDeletePopUp:true})
+                /*
+                'BC-TSLDetailsDate'.DeleteTSL("CRONUS FR",ThisItem.timeSheetNo,ThisItem.timeSheetLineNo,ThisItem.date);
+                
+                //2 Refresh pour MAJ les DATA du DASHBOARD
+                ClearCollect(colTSLdetails,'BC-TimeSheetsApi'.TSLDetails("'CRONUS%20FR'",{'$expand':"TimeSheetComplatetimeSheetLineCompletes($expand=TimeSheetComplatetimeSheetLineCompletestimeSheetDtls)"}).value);
+                
+                // Refresh de la Gallery colThiDayTasks
+                Clear(colThisDayTasks);
+                ForAll(
+                    LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,
+                    ForAll(ThisRecord.TimeSheetComplatetimeSheetLineCompletestimeSheetDtls,
+                        Collect(colThisDayTasks,ThisRecord)
+                    )
+                );
+                */
+            Visible: |-
+                =//ctxShowInput
+                ThisItem.status="Open" || ThisItem.status="Ouvert"
+            Width: =40
+            X: =579
+            Y: =19
+            ZIndex: =8
+
+        iconModifyOrLock_3 As icon.Add:
+            Color: =If(ThisItem.status="Open" || ThisItem.status="Ouvert",RGBA(0, 18, 107, 1),Color.Red)
+            DisplayMode: =DisplayMode.View
+            Height: =30
+            Icon: =If(!ThisItem.posted && ThisItem.status="Open" || ThisItem.status="Ouvert",Icon.Edit,Icon.Lock)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =2
+            PaddingLeft: =2
+            PaddingRight: =2
+            PaddingTop: =2
+            Width: =30
+            X: =397
+            Y: =18
+            ZIndex: =9
+
+        lblTSLName_4 As label:
+            FontWeight: =FontWeight.Normal
+            Height: =35
+            OnSelect: =Select(Parent)
+            PaddingLeft: =10
+            PaddingRight: =0
+            Size: =17
+            Text: =ThisItem.jobTaskDescription
+            VerticalAlign: =VerticalAlign.Top
+            Width: =310
+            X: =3
+            Y: =33
+            ZIndex: =10
+
+        Rectangle2 As rectangle:
+            BorderStyle: =BorderStyle.None
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =1
+            OnSelect: =Select(Parent)
+            Width: =Parent.Width
+            Y: =71
+            ZIndex: =11
+
+        Label12 As label:
+            Height: =30
+            LineHeight: =1
+            OnSelect: =Select(Parent)
+            Size: =15
+            Text: =ThisItem.status
+            Visible: =If(ThisItem.status="Open" || ThisItem.status="Ouvert",false,true)
+            Width: =121
+            X: =437
+            Y: =18
+            ZIndex: =12
+
+    "galTSLinesByDay_2 As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =539
+        Items: =Sequence(DateValue(First(Filter(colTSLdetails,no=varTimeSheetName)).endingDate) - DateValue(First(Filter(colTSLdetails,no=varTimeSheetName)).startingDate)+1)
+        Layout: =Layout.Vertical
+        ShowNavigation: =true
+        ShowScrollbar: =false
+        TemplatePadding: =0
+        TemplateSize: =76
+        Visible: =IsBlank(ctxDaySelected) && !varShowpopup && !varNewLinePopUP
+        Y: =403
+        ZIndex: =7
+
+        Rectangle4_2 As rectangle:
+            Fill: =If(Mod(ThisItem.Value,2)=1,RGBA(49, 173, 161, 0.1),Color.Transparent)
+            Height: =76
+            OnSelect: =Select(Parent)
+            Width: =640
+            ZIndex: =1
+
+        Title14_2 As label:
+            Align: =Align.Center
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =2
+            Text: =Text(DateValue(First(Filter(colTSLdetails,no=varTimeSheetName)).startingDate)+ThisItem.Value-1,"dd/mm")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =100
+            X: =20
+            Y: =18
+            ZIndex: =2
+
+        Label14_3 As label:
+            Height: =36
+            OnSelect: =Select(Parent)
+            Size: =20
+            Text: |
+                =//CountRows(Filter(colThisDayTasks,date=Text(DateValue(First(Filter(colTSLdetails,no=varTimeSheetName)).startingDate)+ThisItem.Value-1,"yyyy-mm-dd"))) & " tâche(s)"
+                CountRows(Filter(colThisDayTasks,date=Text(TSStartingDate+ThisItem.Value-1,"yyyy-mm-dd"))) & " tâche(s)"
+                //CountRows(LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes) & " tâche(s)"
+            Width: =136
+            X: =150
+            Y: =18
+            ZIndex: =3
+
+        Label15_2 As label:
+            Height: =36
+            OnSelect: =Select(Parent)
+            Size: =20
+            Text: |-
+                ="Total = " & If(
+                    IsBlankOrError(
+                        Sum(
+                            Filter(
+                                colThisDayTasks,
+                                date = Text(
+                                    DateValue(
+                                        First(
+                                            Filter(
+                                                colTSLdetails,
+                                                no = varTimeSheetName
+                                            )
+                                        ).startingDate
+                                    ) + ThisItem.Value - 1,
+                                    "yyyy-mm-dd"
+                                )
+                            ),
+                            quantity
+                        )
+                    ),
+                    0,
+                    Sum(
+                        Filter(
+                            colThisDayTasks,
+                            date = Text(
+                                DateValue(
+                                    First(
+                                        Filter(
+                                            colTSLdetails,
+                                            no = varTimeSheetName
+                                        )
+                                    ).startingDate
+                                ) + ThisItem.Value - 1,
+                                "yyyy-mm-dd"
+                            )
+                        ),
+                        quantity
+                    )
+                ) & " " & varUnitOfMeasure & "(S)"
+            Width: =268
+            X: =354
+            Y: =18
+            ZIndex: =4
+
+        Button7_2 As button:
+            AutoDisableOnSelect: =false
+            BorderColor: |
+                =
+            BorderThickness: =0
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =76
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =
+            OnSelect: |-
+                =Select(Parent);
+                UpdateContext({ctxDaySelected:Text(DateValue(First(Filter(colTSLdetails,no=varTimeSheetName)).startingDate)+ThisItem.Value-1,"yyyy-mm-dd")});
+                UpdateContext({OneClicked: If(Day=galTSLinesByDay_2.Selected.Title14_2.Text,false,true)});
+                UpdateContext({Day: If(OneClicked,galTSLinesByDay_2.Selected.Title14_2.Text,"")}) ;
+                If(!OneClicked, UpdateContext({ctxDaySelected:""}));
+                UpdateContext({ctxDayIndex:ThisItem.Value})
+            Size: =24
+            Text: =""
+            Width: =Parent.Width
+            ZIndex: =5
+
+    ComponentHeader_6 As ComponentHeader:
+        home_nav: =scHome
+        screen_nav: =scTSList_remplir
+        Title_page: ="REMPLIR UNE TIMESHEET"
+        ZIndex: =16
+
+    Icon3_1 As icon.Add:
+        BorderColor: =RGBA(49, 173, 161, 1)
+        BorderStyle: =BorderStyle.None
+        Color: |+
+            =If(
+                IsEmpty(GroupBy(Filter(LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,Not(lineNo in ShowColumns(Filter(colThisDayTasks,date=ctxDaySelected),"timeSheetLineNo")),status="Open"),"lineNo","lineNoGroup")),
+                RGBA(165, 54, 54, 1),
+                RGBA(49, 173, 161, 1)
+            )
+            
+        DisabledColor: =RGBA(165, 54, 54, 1)
+        DisplayMode: |-
+            =If(
+                IsEmpty(GroupBy(Filter(LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,Not(lineNo in ShowColumns(Filter(colThisDayTasks,date=ctxDaySelected),"timeSheetLineNo")),status="Open"),"lineNo","lineNoGroup")),
+                DisplayMode.Disabled,
+                DisplayMode.Edit
+            )
+        FocusedBorderThickness: =0
+        Height: =40
+        Icon: |+
+            =If(
+                IsEmpty(GroupBy(Filter(LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,Not(lineNo in ShowColumns(Filter(colThisDayTasks,date=ctxDaySelected),"timeSheetLineNo")),status="Open" || "Ouvert"),"lineNo","lineNoGroup")),
+                Icon.Blocked,
+                Icon.Add
+            )
+            
+            
+        OnSelect: =Set(varShowpopup, !varShowpopup)
+        Tooltip: |+
+            =If(
+                IsEmpty(GroupBy(Filter(LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,Not(lineNo in ShowColumns(Filter(colThisDayTasks,date=ctxDaySelected),"timeSheetLineNo")),status="Open"),"lineNo","lineNoGroup")),
+                "Tous les jobs sont déjà saisis. Veuillez créer un nouveau job pour saisir un nouveau temps de travail",
+                "Ajouter un temps de travail dans un job existant"
+            )
+            
+        Visible: |-
+            =//CountRows(Filter(colThisDayTasks,timeSheetNo=varTimeSheetName,date=ctxDaySelected))>0 && !varShowpopup
+            !varShowpopup && !ctxDeletePopUp && !IsBlank(ctxDaySelected) && !varNewLinePopUP
+        Width: =40
+        X: =Parent.Width/2 - Self.Width/2
+        Y: |-
+            =If(lblNoTaskDay_3.Visible,
+                lblNoTaskDay_3.Y + lblNoTaskDay_3.Height - 10 ,
+                galTSDayDetail_3.Y + (galTSDayDetail_3.TemplateHeight * 
+                If(CountRows(galTSDayDetail_3.AllItems)>7,7,CountRows(galTSDayDetail_3.AllItems))
+                )+5
+            )
+        ZIndex: =31
+
+    compDaySelector_2 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =36
+
+        HtmlText1_2 As htmlViewer:
+            Height: =102
+            HtmlText: |-
+                ="<div style='width:800px;height:70px;background-color:#;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  #ccc; '></div>"
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Width: =640
+            Y: =283
+            ZIndex: =8
+
+        galDaySelector_2 As gallery.galleryHorizontal:
+            DelayItemLoading: =true
+            Height: =70
+            Items: =Sequence(DateValue(First(Filter(colTSLdetails,no=varTimeSheetName)).endingDate) - DateValue(First(Filter(colTSLdetails,no=varTimeSheetName)).startingDate)+1)
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =640/7
+            Y: =268
+            ZIndex: =14
+
+            Button5_2 As button:
+                BorderColor: =
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =0
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(255, 255, 255, 1)
+                DisabledFill: =RGBA(49, 173, 161, 0.4)
+                Fill: |-
+                    =//If(ThisItem.IsSelected && Day=Gallery8.Selected.Button5.Text && OneClicked,RGBA(250,155,112,1),Color.Black)
+                    If(ThisItem.Value=ctxDayIndex && OneClicked,RGBA(49, 173, 161, 1),RGBA(56, 96, 178, 1))
+                FontWeight: =FontWeight.Bold
+                Height: =70
+                HoverBorderColor: =
+                HoverFill: =RGBA(49, 173, 161, 0.4)
+                OnSelect: |
+                    =Select(Parent);
+                    UpdateContext({ctxDaySelected:Text(DateValue(First(Filter(colTSLdetails,no=varTimeSheetName)).startingDate)+ThisItem.Value-1,"yyyy-mm-dd")});
+                    UpdateContext({OneClicked: If(Day=galDaySelector_2.Selected.Button5_2.Text,false,true)});
+                    UpdateContext({Day: If(OneClicked,galDaySelector_2.Selected.Button5_2.Text,"")}) ;
+                    If(!OneClicked, UpdateContext({ctxDaySelected:""}));
+                    UpdateContext({ctxDayIndex:ThisItem.Value});
+                    Reset(ComboBox2_9); Clear(ColOutput);Reset(ComboBox2_15);Reset(ComboBox2_16);
+                    If(varShowpopup,Set(varShowpopup, false));
+                    Set(varNewLinePopUP, false);
+                PaddingLeft: =0
+                PaddingRight: =0
+                PressedBorderColor: =
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =RGBA(49, 173, 161, 0.4)
+                Size: =18
+                Text: =Text(DateValue(First(Filter(colTSLdetails,no=varTimeSheetName)).startingDate)+ThisItem.Value-1,"dd/mm")
+                Width: =galDaySelector_2.TemplateWidth-10
+                X: =5
+                ZIndex: =1
+
+    Label8_16 As label:
+        Color: =RGBA(255, 0, 0, 1)
+        DisplayMode: =DisplayMode.View
+        Height: =25
+        LineHeight: =1
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =18
+        Text: ="*"
+        Visible: =varNewLinePopUP
+        Width: =14
+        X: =162
+        Y: =486
+        ZIndex: =49
+
+    compTSInfo_4 As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =59
+
+        lblTSEndDay_5 As label:
+            Height: =60
+            Size: =21
+            Text: =Text(TSEndingDate,"dd/mm/yyy")
+            Width: =160
+            X: =460
+            Y: =186
+            ZIndex: =9
+
+        lblTSEnd_5 As label:
+            Align: =Align.Right
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            Size: =21
+            Text: |-
+                ="Fin : "
+            Width: =135
+            X: =325
+            Y: =186
+            ZIndex: =10
+
+        lblTSStartDay_5 As label:
+            Height: =60
+            Size: =21
+            Text: =Text(TSStartingDate,"dd/mm/yyy")
+            Width: =160
+            X: =460
+            Y: =126
+            ZIndex: =11
+
+        lblTSStart_5 As label:
+            Align: =Align.Right
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            Size: =21
+            Text: |-
+                ="Debut : "
+            Width: =135
+            X: =325
+            Y: =126
+            ZIndex: =12
+
+        imgCalendar_5 As image:
+            Height: =143
+            Image: =schedule
+            Width: =110
+            X: =188
+            Y: =114
+            ZIndex: =13
+
+        lblTSName_4 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Bold
+            Height: =47
+            Size: =25
+            Text: =varTimeSheetName
+            Width: =176
+            Y: =157
+            ZIndex: =15
+
+    Group1 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =60
+
+        Rectangle5_10 As rectangle:
+            Fill: =RGBA(49, 173, 161, 0.1)
+            Height: =535
+            Visible: =varShowpopup
+            Width: =640
+            Y: =417
+            ZIndex: =17
+
+        Label8_63 As label:
+            Fill: =Color.Transparent
+            FontWeight: =FontWeight.Semibold
+            Size: =18
+            Text: |-
+                ="Quantité : "
+            Visible: =varShowpopup
+            Width: =142
+            X: =199
+            Y: =784
+            ZIndex: =18
+
+        Label8_18 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            DisplayMode: =DisplayMode.View
+            Height: =25
+            LineHeight: =1
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =18
+            Text: ="*"
+            Visible: =varShowpopup
+            Width: =14
+            X: =302
+            Y: =770
+            ZIndex: =19
+
+        Label8_56 As label:
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FontWeight: =FontWeight.Semibold
+            Size: =18
+            Text: |-
+                ="Type :"
+            Visible: =varShowpopup
+            Width: =80
+            X: =188
+            Y: =450
+            ZIndex: =20
+
+        Icon2_5 As icon.Cancel:
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(56, 96, 178, 1)
+            Fill: =RGBA(49, 173, 161, 0.5)
+            Height: =30
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =Set(varShowpopup, !varShowpopup);
+                Reset(ComboBox2_9);Reset(ComboBox2_8);Reset(TextInput1_2)
+            PaddingLeft: =5
+            PaddingRight: =5
+            Visible: =varShowpopup
+            Width: =40
+            X: =600
+            Y: =387
+            ZIndex: =21
+
+        ComboBox2_9 As combobox:
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            DisplayFields: =["jobNo","jobTaskNo"]
+            Height: =45
+            InputTextPlaceholder: =
+            IsSearchable: =false
+            Items: |+
+                =Filter(
+                    LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,
+                    Not(lineNo in ShowColumns(Filter(colThisDayTasks,date=ctxDaySelected),"timeSheetLineNo")), status="Open"
+                )
+                
+            OnChange: =//If(IsBlankOrError(ComboBox2_9.Selected)
+            PaddingLeft: =3
+            SearchFields: =["jobNo"]
+            SearchItems: =[]
+            SelectMultiple: =false
+            Size: =15
+            Template: =ListItemTemplate.Double
+            Visible: =varShowpopup
+            Width: =159
+            X: =181
+            Y: =546
+            ZIndex: =22
+
+        ComboBox2_8 As combobox:
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            DefaultSelectedItems: =["Job"]
+            DisplayFields: =["Value"]
+            InputTextPlaceholder: =
+            IsSearchable: =false
+            Items: =["Job","Absence"]
+            PaddingLeft: =3
+            SearchFields: =["Value"]
+            SearchItems: =[]
+            SelectMultiple: =false
+            Size: =15
+            Visible: =varShowpopup
+            Width: =129
+            X: =302
+            Y: =453
+            ZIndex: =23
+
+        TextInput1_2 As text:
+            Align: =Align.Center
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            Default: =restrict
+            DisabledFill: =RGBA(219, 219, 219, 1)
+            DisplayMode: |-
+                =If(
+                    IsBlankOrError(ComboBox2_9.Selected),
+                    DisplayMode.Disabled,
+                    DisplayMode.Edit
+                )
+            Format: =TextFormat.Number
+            LineHeight: =1
+            MaxLength: =2
+            OnChange: |-
+                =UpdateContext({restrict: Value(TextInput1_2.Text)}); If(restrict>24, UpdateContext({restrict: 24}) && Notify("Le maximum autorisé est 24h",NotificationType.Warning))
+            PaddingLeft: =5
+            Size: =21
+            Visible: =varShowpopup
+            Width: =99
+            X: =341
+            Y: =784
+            ZIndex: =24
+
+        btnCreateTSLDetail_7 As button:
+            BorderColor: =
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(49, 173, 161, 0.4)
+            DisplayMode: |
+                =If(IsBlankOrError(ComboBox2_9) || IsBlankOrError(TextInput1_2) || Value(TextInput1_2.Text)>24 ,DisplayMode.Disabled,DisplayMode.Edit)
+            Fill: =RGBA(49, 173, 161, 1)
+            Font: =Font.'Segoe UI'
+            Height: =80
+            HoverBorderColor: =
+            HoverFill: =RGBA(49, 173, 161, 0.4)
+            OnSelect: |-
+                ='BC-TSLDetailsDate'.NewTSLDetail("CRONUS FR",{timeSheetNo:varTimeSheetName,jobNo:ComboBox2_9.Selected.jobNo,jobTaskNo:ComboBox2_9.Selected.jobTaskNo,date:ctxDaySelected,timeSheetLineNo:ComboBox2_9.Selected.lineNo,quantity:Value(TextInput1_2.Text),type:ComboBox2_8.Selected.Value});
+                
+                //2 Refresh pour MAJ les DATA du DASHBOARD
+                ClearCollect(colTSLdetails,'BC-TimeSheetsApi'.TSLDetails("CRONUS%20FR",{'$expand':"TimeSheetComplatetimeSheetLineCompletes($expand=TimeSheetComplatetimeSheetLineCompletestimeSheetDtls)"}).value);
+                
+                // Refresh de la Gallery colThiDayTasks
+                Clear(colThisDayTasks);
+                ForAll(
+                    LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,
+                    ForAll(ThisRecord.TimeSheetComplatetimeSheetLineCompletestimeSheetDtls,
+                        Collect(colThisDayTasks,ThisRecord)
+                    )
+                );
+                //Reset des input du formulaire
+                Reset(ComboBox2_9);Reset(TextInput1_2);
+                //Cacher la modale
+                Set(varShowpopup, !varShowpopup);
+            PressedBorderColor: =
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(49, 173, 161, 0.4)
+            Size: =20
+            Text: ="Confirmer"
+            Visible: =varShowpopup
+            Width: =194
+            X: =223
+            Y: =854
+            ZIndex: =25
+
+        Label8_64 As label:
+            Fill: =Color.Transparent
+            FontWeight: =FontWeight.Semibold
+            LineHeight: =1
+            Size: =18
+            Text: |-
+                ="Job n° :"
+            Visible: =varShowpopup
+            Width: =117
+            X: =59
+            Y: =549
+            ZIndex: =43
+
+        Label8_66 As label:
+            Fill: =Color.Transparent
+            FontWeight: =FontWeight.Semibold
+            Height: =42
+            LineHeight: =1
+            PaddingLeft: =0
+            PaddingRight: =0
+            Size: =18
+            Text: |-
+                ="Job Task n°  :"
+            Visible: =varShowpopup
+            Width: =155
+            X: =371
+            Y: =551
+            ZIndex: =44
+
+        Label13 As label:
+            Align: =Align.Center
+            DisabledFill: =RGBA(219, 219, 219, 1)
+            DisplayMode: |-
+                =If(
+                    IsBlankOrError(ComboBox2_9.Selected),
+                    DisplayMode.Disabled,
+                    DisplayMode.View
+                )
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =38
+            Size: =21
+            Text: =ComboBox2_9.Selected.jobTaskNo
+            Visible: =varShowpopup
+            Width: =98
+            X: =522
+            Y: =555
+            ZIndex: =45
+
+        Label8_62 As label:
+            Fill: =Color.Transparent
+            FontWeight: =FontWeight.Semibold
+            Height: =43
+            Size: =18
+            Text: |-
+                ="Description : "
+            Visible: =varShowpopup
+            Width: =165
+            X: =91
+            Y: =656
+            ZIndex: =46
+
+        Label13_1 As label:
+            Align: =Align.Center
+            DisabledFill: =RGBA(219, 219, 219, 1)
+            DisplayMode: |-
+                =If(
+                    IsBlankOrError(ComboBox2_9.Selected),
+                    DisplayMode.Disabled,
+                    DisplayMode.View
+                )
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =39
+            Size: =21
+            Text: =ComboBox2_9.Selected.description
+            Visible: =varShowpopup
+            Width: =318
+            X: =253
+            Y: =658
+            ZIndex: =47
+
+    Group2 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =61
+
+        Rectangle5_9 As rectangle:
+            Fill: =RGBA(49, 173, 161, 0.1)
+            Height: =523
+            Visible: =varNewLinePopUP
+            Width: =640
+            Y: =429
+            ZIndex: =32
+
+        Label8_59 As label:
+            Fill: =Color.Transparent
+            FontWeight: =FontWeight.Semibold
+            Size: =18
+            Text: ="Job n° "
+            Visible: =varNewLinePopUP
+            Width: =117
+            X: =91
+            Y: =568
+            ZIndex: =33
+
+        Label8_60 As label:
+            Fill: =Color.Transparent
+            FontWeight: =FontWeight.Semibold
+            Height: =59
+            Size: =18
+            Text: ="Job Task "
+            Visible: =varNewLinePopUP
+            Width: =154
+            X: =91
+            Y: =633
+            ZIndex: =34
+
+        Label8_57 As label:
+            Fill: =Color.Transparent
+            FontWeight: =FontWeight.Semibold
+            Size: =18
+            Text: ="TimeSheetLineNo "
+            Visible: =false
+            Width: =237
+            X: =91
+            Y: =721
+            ZIndex: =35
+
+        Label8_15 As label:
+            Color: =RGBA(255, 0, 0, 1)
+            DisplayMode: =DisplayMode.View
+            Height: =25
+            LineHeight: =1
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =18
+            Text: ="*"
+            Visible: =varNewLinePopUP
+            Width: =14
+            X: =199
+            Y: =633
+            ZIndex: =36
+
+        Label8_55 As label:
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FontWeight: =FontWeight.Semibold
+            Height: =53
+            Size: =18
+            Text: ="Type "
+            Visible: =varNewLinePopUP
+            Width: =80
+            X: =91
+            Y: =485
+            ZIndex: =37
+
+        Icon2_4 As icon.Cancel:
+            BorderStyle: =BorderStyle.None
+            Color: =Color.Black
+            Fill: =RGBA(49, 173, 161, 0.5)
+            FocusedBorderThickness: =3
+            Height: =30
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =Set(varNewLinePopUP, !varNewLinePopUP);
+                Reset(ComboBox2_15);Reset(ComboBox2_16)
+            PaddingLeft: =5
+            PaddingRight: =5
+            Rotation: =180
+            Visible: =varNewLinePopUP
+            Width: =40
+            X: =600
+            Y: =399
+            ZIndex: =38
+
+        ComboBox2_14 As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            ChevronHoverBackground: =RGBA(0, 0, 0, 0.8)
+            DefaultSelectedItems: =["Job"]
+            DisabledFill: =RGBA(255, 255, 255, 1)
+            DisplayFields: =["Value"]
+            FontWeight: =FontWeight.Semibold
+            Height: =45
+            HoverBorderColor: =RGBA(0, 18, 107, 1)
+            HoverFill: =RGBA(215, 223, 240, 1)
+            InputTextPlaceholder: =
+            IsSearchable: =false
+            Items: =["Job","Absence"]
+            PaddingLeft: =3
+            PressedFill: =RGBA(0, 0, 0, 1)
+            SearchFields: =["Value"]
+            SearchItems: =[]
+            SelectMultiple: =false
+            Size: =15
+            Visible: =varNewLinePopUP
+            Width: =171
+            X: =267
+            Y: =493
+            ZIndex: =39
+
+        btnCreateTSLDetail_6 As button:
+            BorderColor: =
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(49, 173, 161, 0.4)
+            DisplayMode: |-
+                =If(
+                    IsBlankOrError(ComboBox2_14) || IsBlankOrError(ComboBox2_15) || IsBlankOrError(ComboBox2_16),
+                    DisplayMode.Disabled,
+                    DisplayMode.Edit
+                )
+            Fill: =RGBA(49, 173, 161, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =80
+            HoverBorderColor: =
+            HoverFill: =RGBA(49, 173, 161, 0.4)
+            OnSelect: |-
+                ='BC-TSLDetailsDate'.NewTSLine("CRONUS FR",{timeSheetNo:varTimeSheetName,type:ComboBox2_14.Selected.Value,jobNo:ComboBox2_15.Selected.no,jobTaskNo:ComboBox2_16.Selected.jobTaskNo,lineNo:Value(TextInput2_4.Text)});
+                
+                //2 Refresh pour MAJ les DATA du DASHBOARD
+                ClearCollect(colTSLdetails,'BC-TimeSheetsApi'.TSLDetails("CRONUS%20FR",{'$expand':"TimeSheetComplatetimeSheetLineCompletes($expand=TimeSheetComplatetimeSheetLineCompletestimeSheetDtls)"}).value);
+                
+                // Refresh de la Gallery colThiDayTasks
+                Clear(colThisDayTasks);
+                ForAll(
+                    LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,
+                    ForAll(ThisRecord.TimeSheetComplatetimeSheetLineCompletestimeSheetDtls,
+                        Collect(colThisDayTasks,ThisRecord)
+                    )
+                );
+                //Reset des input du formulaire
+                Reset(ComboBox2_15);//Reset(ComboBox2_1);
+                //Cacher la modale
+                Set(varNewLinePopUP, !varNewLinePopUP);
+            PressedBorderColor: =
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(49, 173, 161, 0.4)
+            Size: =20
+            Text: ="Confirmer"
+            Visible: =varNewLinePopUP
+            Width: =194
+            X: =213
+            Y: =824
+            ZIndex: =40
+
+        ComboBox2_15 As combobox:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            ChevronHoverBackground: =RGBA(0, 0, 0, 0.8)
+            DefaultSelectedItems: =
+            DisplayFields: =["no"]
+            DisplayMode: =//If(    IsBlankOrError(ComboBox2_9.Selected),    DisplayMode.Disabled,    DisplayMode.Edit)
+            FontWeight: =FontWeight.Semibold
+            Height: =45
+            HoverBorderColor: =RGBA(39, 67, 125, 1)
+            HoverFill: =RGBA(215, 223, 240, 1)
+            InputTextPlaceholder: =
+            IsSearchable: =false
+            Items: |
+                =colJobDetailsList
+            OnChange: =Reset(ComboBox2_16)
+            PaddingLeft: =3
+            PaddingRight: =3
+            PressedFill: =RGBA(0, 0, 0, 1)
+            SearchFields: =["no"]
+            SearchItems: =[]
+            SelectMultiple: =false
+            Size: =15
+            Visible: =varNewLinePopUP
+            Width: =171
+            X: =267
+            Y: =573
+            ZIndex: =41
+
+        TextInput2_4 As text:
+            Align: =Align.Center
+            BorderStyle: =BorderStyle.None
+            Default: |+
+                =CountRows(LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes)*10000 + 10001
+                
+            DisplayMode: =DisplayMode.View
+            FontWeight: =FontWeight.Semibold
+            Format: =TextFormat.Number
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Visible: =false
+            Width: =129
+            X: =335
+            Y: =721
+            ZIndex: =42
+
+        ComboBox2_16 As combobox:
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            ChevronHoverBackground: =RGBA(0, 0, 0, 0.75)
+            DefaultSelectedItems: =
+            DisabledColor: =RGBA(128, 128, 128, 1)
+            DisabledFill: =RGBA(237, 237, 237, 1)
+            DisplayFields: =["jobTaskNo","description"]
+            DisplayMode: =If(IsBlankOrError(ComboBox2_15.Selected),DisplayMode.Disabled,DisplayMode.Edit)
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =RGBA(50, 86, 160, 1)
+            HoverFill: =RGBA(215, 223, 240, 1)
+            InputTextPlaceholder: =
+            IsSearchable: =false
+            Items: =Filter(LookUp(colJobDetailsList,no=ComboBox2_15.Selected.no).JobDtlsjobTask,jobTaskType="Posting" || "Validation")
+            PaddingLeft: =3
+            PaddingRight: =3
+            SearchFields: =["jobTaskNo"]
+            SearchItems: =[]
+            SelectMultiple: =false
+            Size: =15
+            Template: =ListItemTemplate.Double
+            Visible: =varNewLinePopUP
+            Width: =316
+            X: =267
+            Y: =647
+            ZIndex: =48
+
+    compDeleteConfirm_2 As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =68
+
+        recBcgVisibility_3 As rectangle:
+            Fill: =RGBA(209, 209, 209, 0.8)
+            Height: =956
+            Visible: =ctxDeletePopUp
+            Width: =640
+            Y: =110
+            ZIndex: =26
+
+        btnDeletePopUp_3 As button:
+            BorderColor: =RGBA(221, 79, 14, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =277
+            HoverFill: =
+            Size: =24
+            Text: =""
+            Visible: =ctxDeletePopUp
+            Width: =496
+            X: =72
+            Y: =387
+            ZIndex: =27
+
+        lblDeletePrompt_3 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =70
+            Size: =21
+            Text: ="Etes-vous sûr de vouloir supprimer cette quantité ?"
+            Visible: =ctxDeletePopUp
+            Width: =420
+            X: =114
+            Y: =440
+            ZIndex: =28
+
+        btnConfirmDelete_3 As button:
+            Fill: =RGBA(221, 79, 14, 1)
+            Height: =56
+            HoverFill: =RGBA(166, 166, 166, 1)
+            OnSelect: |-
+                ='BC-TSLDetailsDate'.DeleteTSL("CRONUS FR",galTSDayDetail_3.Selected.timeSheetNo,galTSDayDetail_3.Selected.timeSheetLineNo,galTSDayDetail_3.Selected.date);
+                //2 Refresh pour MAJ les DATA du DASHBOARD
+                ClearCollect(colTSLdetails,'BC-TimeSheetsApi'.TSLDetails("CRONUS%20FR",{'$expand':"TimeSheetComplatetimeSheetLineCompletes($expand=TimeSheetComplatetimeSheetLineCompletestimeSheetDtls)"}).value);
+                
+                // Refresh de la Gallery colThiDayTasks
+                Clear(colThisDayTasks);
+                ForAll(
+                    LookUp(colTSLdetails,no=varTimeSheetName).TimeSheetComplatetimeSheetLineCompletes,
+                    ForAll(ThisRecord.TimeSheetComplatetimeSheetLineCompletestimeSheetDtls,
+                        Collect(colThisDayTasks,ThisRecord)
+                    )
+                );
+                
+                UpdateContext({ctxDeletePopUp:false})
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 0, 0, 1)
+            Size: =24
+            Text: ="Confirmer"
+            Visible: =ctxDeletePopUp
+            Width: =203
+            X: =325
+            Y: =565
+            ZIndex: =29
+
+        btnCancelDelete_3 As button:
+            Fill: =RGBA(221, 79, 14, 1)
+            Height: =56
+            HoverFill: =RGBA(166, 166, 166, 1)
+            OnSelect: |-
+                =UpdateContext({ctxDeletePopUp:false})
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 0, 0, 1)
+            Size: =24
+            Text: ="Annuler"
+            Visible: =ctxDeletePopUp
+            Width: =203
+            X: =106
+            Y: =565
+            ZIndex: =30
+

@@ -1,0 +1,8 @@
+[
+  {
+    "ApiId": "/providers/microsoft.powerapps/apis/shared_bc-2dtsldetailsdate-5f53a2ceb06f5245c6-5f161ba5d564a9dc0a",
+    "Name": "BC-TSLDetailsDate",
+    "ServiceKind": "ConnectedWadl",
+    "Type": "ServiceInfo"
+  }
+]

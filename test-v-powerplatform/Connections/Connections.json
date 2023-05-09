@@ -1,0 +1,38 @@
+{
+  "bfba771e-3c05-4f78-a2ef-04bf54cc395d": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "BC-TSLDetailsDate",
+      "iconUri": "https://prodapiicons.cdn.powerappscdn.net/20230221t000000z91897a29703b4ea899b783285b9b70ff/customconnectoricon.jfif",
+      "id": "/providers/microsoft.powerapps/apis/shared_bc-2dtsldetailsdate-5f53a2ceb06f5245c6-5f161ba5d564a9dc0a",
+      "isCustomApiConnection": true,
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "BC-TSLDetailsDate"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "bfba771e-3c05-4f78-a2ef-04bf54cc395d"
+  },
+  "d7e729c7-7cbf-454d-a44b-b5b3e436c5d2": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "BC-TimeSheetsApi",
+      "iconUri": "https://prodapiicons.cdn.powerappscdn.net/20230221t000000z56ffa3a2fee1453eaa53c36fecdab506/customconnectoricon.jfif",
+      "id": "/providers/microsoft.powerapps/apis/shared_bc-2dtimesheetsapi-5f53a2ceb06f5245c6-5f161ba5d564a9dc0a",
+      "isCustomApiConnection": true,
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "BC-TimeSheetsApi"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "d7e729c7-7cbf-454d-a44b-b5b3e436c5d2"
+  }
+}

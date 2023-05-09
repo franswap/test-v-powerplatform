@@ -1,0 +1,15 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |-
+        =Set(varMonth,DateValue(Month(Today())&"/"&"1"&"/"&Year(Today())));
+        Set(varFirstDayView,DateAdd(varMonth,-Weekday(varMonth),TimeUnit.Days));
+        ClearCollect(colTSLdetails,'BC-TimeSheetsApi'.TSLDetails("CRONUS FR",{'$expand':"TimeSheetComplatetimeSheetLineCompletes($expand=TimeSheetComplatetimeSheetLineCompletestimeSheetDtls)"}).value);
+        ClearCollect(colJobDetailsList,'BC-TSLDetailsDate'.JobDtls("CRONUS FR",{'$expand':"JobDtlsjobTask"}).value);
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+
